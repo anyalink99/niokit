@@ -1,15 +1,15 @@
 /* =========================================================================
-   Kit — generic service worker (adapted from mafia-host-app).
+   Niokit — generic service worker (adapted from mafia-host-app).
    Strategy: network-first for navigations + html/js/css (fresh code), cache-
    first for other same-origin assets, stale-while-revalidate for Google Fonts
    & Tailwind CDN, offline fallback to index.html. Bump CACHE_NAME on release.
    ========================================================================= */
-var CACHE_NAME = 'kit-static-v1';
+var CACHE_NAME = 'niokit-static-v1';
 var ASSETS = [
   './', './index.html', './demo.js', './manifest.webmanifest',
-  './css/tokens.css', './css/reset.css', './css/motion.css', './css/components.css',
-  './js/kit.js', './js/storage.js', './js/store.js', './js/dispatch.js', './js/router.js', './js/screens.js',
-  './js/modal.js', './js/sheet.js', './js/toast.js', './js/fx.js', './js/color-picker.js', './js/keybinds.js',
+  '../css/tokens.css', '../css/reset.css', '../css/motion.css', '../css/components.css',
+  '../js/kit.js', '../js/storage.js', '../js/store.js', '../js/dispatch.js', '../js/router.js', '../js/screens.js',
+  '../js/modal.js', '../js/sheet.js', '../js/toast.js', '../js/fx.js', '../js/color-picker.js', '../js/keybinds.js',
   './icon.svg', './icon-192.png', './icon-512.png',
 ];
 

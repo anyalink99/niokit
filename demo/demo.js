@@ -22,7 +22,7 @@
 
   /* ---------- brand sticker ---------- */
   frame({ sticker: true, x: 88, y: 96, rot: -3, w: 332, cls: 'sticker' },
-    K.el('div.ttl', {}, K.el('img', { src: 'icon.svg', alt: '' }), document.createTextNode('Kit')),
+    K.el('div.ttl', {}, K.el('img', { src: 'icon.svg', alt: '' }), document.createTextNode('Niokit')),
     K.el('div.sub', { text: 'Один стек на все vanilla-проекты — токены, движок анимаций, скелеты, оверлеи, компоненты.' }),
     K.el('div.from', { text: 'best of geometric · mafia · settrainer' })
   );
@@ -93,7 +93,7 @@
 
   /* ---------- keybinds (compact) ---------- */
   const kbHost = K.el('div#kb-rows');
-  frame({ name: 'keybinds', x: 904, y: 806, rot: 1.5, w: 238 }, kbHost);
+  frame({ name: 'keybinds', x: 904, y: 806, rot: 1.5, w: 272 }, kbHost);
 
   /* ---------- tokens ---------- */
   const tokHost = K.el('div.sw-row#token-strip');
@@ -186,7 +186,7 @@
   }
   function applyTheme(id) {
     current = id; K.setTheme(id);
-    try { localStorage.setItem('kit.demo.theme', id); } catch (e) {}
+    try { localStorage.setItem('niokit.demo.theme', id); } catch (e) {}
     document.documentElement.style.removeProperty('--k-accent');
     K.$$('#themebar button').forEach((b) => b.classList.toggle('is-on', b.dataset.id === id));
     refreshTokens();

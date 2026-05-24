@@ -68,7 +68,7 @@
 /* ---- settings row ----------------------------------------------------- */
 .k-row { display: flex; align-items: center; justify-content: space-between; gap: 14px; width: 100%; padding: 13px 14px; background: var(--k-surface); border: 1px solid var(--k-line); border-radius: var(--k-r-md); text-align: left; }
 .k-row + .k-row { margin-top: 8px; }
-.k-row__label { color: var(--k-text); font-size: 14.5px; }
+.k-row__label { color: var(--k-text); font-size: 14.5px; flex: 1; min-width: 0; }
 .k-row__hint { color: var(--k-text-3); font-size: 12px; margin-top: 2px; }
 
 /* ---- selectable card -------------------------------------------------- */

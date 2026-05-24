@@ -1,0 +1,19 @@
+{
+  "name": "niokit",
+  "version": "0.1.0",
+  "description": "A framework-free vanilla front-end stack: design tokens, motion, app skeletons, accessible overlays and components. No build step, runs from file://.",
+  "license": "MIT",
+  "author": "anyalink99",
+  "homepage": "https://github.com/anyalink99/niokit#readme",
+  "repository": { "type": "git", "url": "git+https://github.com/anyalink99/niokit.git" },
+  "bugs": { "url": "https://github.com/anyalink99/niokit/issues" },
+  "keywords": [
+    "ui", "vanilla", "no-build", "design-tokens", "theming", "components",
+    "modal", "sheet", "toast", "store", "router", "spa", "css", "front-end"
+  ],
+  "files": ["css", "js", "README.md", "LICENSE", "CHANGELOG.md"],
+  "sideEffects": ["css/*.css"],
+  "scripts": {
+    "start": "npx --yes serve ."
+  }
+}

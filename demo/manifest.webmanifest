@@ -1,6 +1,6 @@
 {
-  "name": "Kit — vanilla front-end stack",
-  "short_name": "Kit",
+  "name": "Niokit — vanilla front-end stack",
+  "short_name": "Niokit",
   "description": "Design tokens, motion, app skeletons, accessible overlays and components. No build step.",
   "start_url": "./",
   "scope": "./",

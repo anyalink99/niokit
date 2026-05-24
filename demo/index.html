@@ -4,18 +4,18 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 
-  <title>Kit — a vanilla front-end stack</title>
-  <meta name="description" content="Kit — a framework-free front-end stack: design tokens, motion, app skeletons, accessible overlays and components. No build step, runs from file://." />
+  <title>Niokit — a vanilla front-end stack</title>
+  <meta name="description" content="Niokit — a framework-free front-end stack: design tokens, motion, app skeletons, accessible overlays and components. No build step, runs from file://." />
   <meta name="theme-color" content="#1a161d" id="meta-theme" />
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="Kit — a vanilla front-end stack" />
+  <meta property="og:title" content="Niokit — a vanilla front-end stack" />
   <meta property="og:description" content="Design tokens, motion, app skeletons, accessible overlays and components. No build step." />
-  <meta property="og:site_name" content="Kit" />
+  <meta property="og:site_name" content="Niokit" />
   <meta property="og:image" content="og-image.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Kit — a vanilla front-end stack" />
+  <meta name="twitter:title" content="Niokit — a vanilla front-end stack" />
   <meta name="twitter:image" content="og-image.png" />
   <link rel="canonical" href="./" />
   <link rel="icon" type="image/svg+xml" href="icon.svg" />
@@ -25,14 +25,14 @@
   <link rel="mask-icon" href="icon.svg" color="#c084fc" />
   <link rel="manifest" href="manifest.webmanifest" />
   <script type="application/ld+json">
-  { "@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Kit",
+  { "@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Niokit",
     "applicationCategory": "DeveloperApplication", "operatingSystem": "Any (browser)",
     "description": "A framework-free front-end stack: tokens, motion, app skeletons, overlays and components.",
     "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" } }
   </script>
 
   <script>
-    try { var t = localStorage.getItem('kit.demo.theme') || 'geometric';
+    try { var t = localStorage.getItem('niokit.demo.theme') || 'geometric';
       if (t === 'default') document.documentElement.removeAttribute('data-theme');
       else document.documentElement.setAttribute('data-theme', t); } catch (e) {}
   </script>
@@ -43,13 +43,13 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 
-  <link rel="stylesheet" href="css/tokens.css" />
-  <link rel="stylesheet" href="css/reset.css" />
-  <link rel="stylesheet" href="css/motion.css" />
-  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="../css/tokens.css" />
+  <link rel="stylesheet" href="../css/reset.css" />
+  <link rel="stylesheet" href="../css/motion.css" />
+  <link rel="stylesheet" href="../css/components.css" />
 
   <style>
-    /* ---- moodboard canvas (demo-only chrome) ---- */
+    /* moodboard canvas (demo chrome only) */
     html, body { height: 100%; }
     body { margin: 0; overflow: hidden; background: var(--k-bg); color: var(--k-text); font-family: var(--k-font); }
     .viewport { position: fixed; inset: 0; overflow: auto; }
@@ -73,29 +73,26 @@
     .frame__bar .nm { font-family: var(--k-font-mono); font-size: 11px; letter-spacing: 0.06em; color: var(--k-text-3); }
     .frame__body { padding: 16px; }
 
-    .sticker { background: var(--k-surface); }
     .sticker .frame__body { padding: 22px 24px; display: flex; flex-direction: column; gap: 8px; }
-    .sticker .ttl { font-family: var(--k-font-display); font-weight: 700; font-size: 52px; line-height: 0.95; letter-spacing: -0.02em; display: flex; align-items: center; gap: 14px; }
-    .sticker .ttl img { width: 46px; height: 46px; border-radius: 13px; }
-    .sticker .ttl em { font-style: italic; color: var(--k-accent); }
+    .sticker .ttl { font-family: var(--k-font-display); font-weight: 700; font-size: 48px; line-height: 0.95; letter-spacing: -0.02em; display: flex; align-items: center; gap: 13px; }
+    .sticker .ttl img { width: 44px; height: 44px; border-radius: 13px; }
     .sticker .sub { color: var(--k-text-2); font-size: 15px; max-width: 34ch; }
     .sticker .from { font-family: var(--k-font-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--k-text-3); margin-top: 4px; }
 
     .row-flex { display: flex; flex-wrap: wrap; gap: 9px; align-items: center; }
     .muted { color: var(--k-text-3); font-size: 12.5px; }
     .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
-    .device { display: flex; flex-direction: column; height: 272px; }  /* both screen previews equal height; .k-stage flexes to fill */
+    .device { display: flex; flex-direction: column; height: 272px; }  /* both screen previews equal height */
     .demo-tabbar { display: flex; border-top: 1px solid var(--k-line); }
     .demo-tabbar button { flex: 1; padding: 11px; color: var(--k-text-3); font-size: 11.5px; transition: color var(--k-dur-1); }
     .demo-tabbar button.is-on { color: var(--k-text); }
     .pad h3 { font-family: var(--k-font-display); font-size: 20px; font-weight: 700; margin-bottom: 4px; }
     .pad { padding: 20px; }
-    .kb-key { min-width: 92px; justify-content: center; }
+    .kb-key { min-width: 66px; justify-content: center; }
     .sw-row { display: flex; gap: 6px; flex-wrap: wrap; }
     .sw-row i { width: 40px; height: 34px; border-radius: 8px; border: 1px solid var(--k-line); display: block; }
     .count { font-family: var(--k-font-display); font-size: 30px; font-weight: 800; min-width: 48px; text-align: center; }
 
-    /* floating theme switcher */
     .themebar { position: fixed; bottom: 18px; left: 50%; transform: translateX(-50%); z-index: 300;
       display: flex; gap: 4px; padding: 6px; border-radius: var(--k-r-pill);
       background: color-mix(in srgb, var(--k-surface) 86%, transparent); backdrop-filter: blur(14px) saturate(1.2);
@@ -105,17 +102,13 @@
     .themebar button.is-on { background: var(--k-surface-2); color: var(--k-text); }
     .themebar .d { display: flex; }
     .themebar .d i { width: 12px; height: 12px; border-radius: 50%; margin-left: -4px; border: 1.5px solid var(--k-surface); }
-    .hint { position: fixed; top: 16px; left: 18px; z-index: 250; font-family: var(--k-font-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--k-text-3); pointer-events: none; }
     @media (max-width: 640px) { .themebar button span { display: none; } .themebar button { padding: 8px; } }
   </style>
 </head>
 <body>
-  <div class="hint">drag the frames · pick a palette ↓</div>
   <div class="viewport" id="viewport"><div class="board" id="board"></div></div>
-
   <nav class="themebar" id="themebar" aria-label="Palette"></nav>
 
-  <!-- pre-existing modal markup -->
   <div class="k-modal" id="demo-modal">
     <div class="k-modal__backdrop"></div>
     <div class="k-modal__panel">
@@ -129,18 +122,18 @@
     </div>
   </div>
 
-  <script src="js/kit.js"></script>
-  <script src="js/storage.js"></script>
-  <script src="js/store.js"></script>
-  <script src="js/dispatch.js"></script>
-  <script src="js/router.js"></script>
-  <script src="js/screens.js"></script>
-  <script src="js/modal.js"></script>
-  <script src="js/sheet.js"></script>
-  <script src="js/toast.js"></script>
-  <script src="js/fx.js"></script>
-  <script src="js/color-picker.js"></script>
-  <script src="js/keybinds.js"></script>
+  <script src="../js/kit.js"></script>
+  <script src="../js/storage.js"></script>
+  <script src="../js/store.js"></script>
+  <script src="../js/dispatch.js"></script>
+  <script src="../js/router.js"></script>
+  <script src="../js/screens.js"></script>
+  <script src="../js/modal.js"></script>
+  <script src="../js/sheet.js"></script>
+  <script src="../js/toast.js"></script>
+  <script src="../js/fx.js"></script>
+  <script src="../js/color-picker.js"></script>
+  <script src="../js/keybinds.js"></script>
   <script src="demo.js"></script>
 </body>
 </html>
