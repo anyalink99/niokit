@@ -92,38 +92,35 @@
 
 /* ===== palette presets lifted from real projects (switch via data-theme) ===== */
 
-/* geometric.games — violet on plum */
+/* geometric.games — violet on plum (system sans, like the project) */
 :root[data-theme="geometric"] {
   --k-bg: #1a161d; --k-surface: #2a2430; --k-surface-2: #382f42;
   --k-text: #f3eff7; --k-text-2: #b7adc5; --k-text-3: #847a93;
-  --k-line: rgba(192,132,252,0.14); --k-line-2: rgba(192,132,252,0.30);
+  --k-line: rgba(192,132,252,0.13); --k-line-2: rgba(192,132,252,0.30);
   --k-accent: #c084fc; --k-accent-ink: #1a131f;
-  --k-good: #4ade80; --k-warn: #fbbf24; --k-danger: #ef4444;
-  --k-font: 'Manrope', ui-sans-serif, system-ui, sans-serif;
-  --k-font-display: 'Sora', ui-sans-serif, system-ui, sans-serif;
+  --k-good: #4ade80; --k-warn: #fbbf24; --k-danger: #f87171;
   color-scheme: dark;
 }
 
-/* mafia-host-app — stone, gold & blood, with a serif display */
+/* mafia-host-app — black, coal & card surfaces; cream text, gold accent,
+   gilded borders, blood for destructive. Serif display (Cormorant Garamond). */
 :root[data-theme="mafia"] {
   --k-bg: #0c0a09; --k-surface: #1c1917; --k-surface-2: #292524;
-  --k-text: #faf8f5; --k-text-2: #b9ab9b; --k-text-3: #7c7065;
-  --k-line: rgba(212,175,55,0.16); --k-line-2: rgba(212,175,55,0.34);
-  --k-accent: #d4af37; --k-accent-ink: #15110a;
-  --k-good: #86b06a; --k-warn: #f0d875; --k-danger: #b1271f;
+  --k-text: #faf8f5; --k-text-2: #c9b99c; --k-text-3: #8a7c6a;
+  --k-line: rgba(212,175,55,0.18); --k-line-2: rgba(212,175,55,0.42);
+  --k-accent: #d4af37; --k-accent-ink: #1a1408;
+  --k-good: #86b06a; --k-warn: #f0d875; --k-danger: #991b1b;
   --k-font: 'Manrope', ui-sans-serif, system-ui, sans-serif;
   --k-font-display: 'Cormorant Garamond', 'Cormorant', Georgia, serif;
   color-scheme: dark;
 }
 
-/* settrainer — magenta on plum */
+/* settrainer — magenta on plum (system sans, like the project) */
 :root[data-theme="settrainer"] {
   --k-bg: #1a161d; --k-surface: #2d2631; --k-surface-2: #3d3442;
   --k-text: #fbf6fb; --k-text-2: #c4b5fd; --k-text-3: #8a7d9a;
-  --k-line: rgba(236,72,153,0.16); --k-line-2: rgba(236,72,153,0.32);
+  --k-line: rgba(236,72,153,0.15); --k-line-2: rgba(236,72,153,0.32);
   --k-accent: #ec4899; --k-accent-ink: #fdeef6;
   --k-good: #4ade80; --k-warn: #fbbf24; --k-danger: #ff4d4d;
-  --k-font: 'Manrope', ui-sans-serif, system-ui, sans-serif;
-  --k-font-display: 'Manrope', ui-sans-serif, system-ui, sans-serif;
   color-scheme: dark;
 }

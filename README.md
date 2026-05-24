@@ -23,6 +23,7 @@ the consolidated "greatest hits", with the rough edges fixed.
 <script src="kit/js/storage.js"></script>
 <script src="kit/js/store.js"></script>
 <script src="kit/js/dispatch.js"></script>
+<script src="kit/js/router.js"></script>
 <script src="kit/js/screens.js"></script>
 <script src="kit/js/modal.js"></script>
 <script src="kit/js/sheet.js"></script>
@@ -60,11 +61,12 @@ kitchen-sink of every component and module.
 | `storage.js` | typed `localStorage` wrapper (`Kit.storage`, `Kit.createStorage(prefix)`) |
 | `store.js` | `Kit.createStore(initial, { persist })` — reactive get/set/subscribe |
 | `dispatch.js` | one delegated listener: `data-action` → handler map, `data-goto`/`data-back` |
+| `router.js` | `Kit.router` — history path+query routing with a `file://` fallback |
 | `screens.js` | `Kit.screens` (flat fade tabs) + `Kit.nav` (push/pop slide stack) |
 | `modal.js` | `Kit.modal.open/close` — focus-trap, scroll-lock, Escape, stacking |
 | `sheet.js` | `Kit.sheet.open/close` — bottom sheet with swipe-to-dismiss |
 | `toast.js` | `Kit.toast(msg)` / `.good/.warn/.danger` — stacked, auto-dismiss |
-| `fx.js` | `animateHeight` (FLIP), `press`, `longpress`, `swipe`, `tilt` |
+| `fx.js` | `animateHeight` (FLIP), `press`, `longpress`, `swipe`, `tilt`, `draggable`, `resizable` |
 | `color-picker.js` | `Kit.ColorPicker.mount/open` — SV+hue+hex, pointer & touch |
 | `keybinds.js` | `Kit.keybinds.create` — capture/rebind/dedupe, layout-independent |
 
@@ -84,13 +86,18 @@ that reads `--k-*` repaints, app components and your own chrome alike:
 
 ```js
 Kit.setTheme('mafia');   // 'geometric' | 'mafia' | 'settrainer' | 'light' | null (default dark)
+
+// animate the swap with a crossfade (View Transitions API):
+if (document.startViewTransition) document.startViewTransition(() => Kit.setTheme('mafia'));
+else Kit.setTheme('mafia');
 ```
 
-The three named palettes are lifted from real projects so they're battle-tested:
-`geometric` (violet on plum), `mafia` (stone + gold + blood, serif display),
-`settrainer` (magenta on plum). Add your own by copying a `:root[data-theme="…"]`
-block in `tokens.css`. For a live accent tweak, just set the var directly:
-`document.documentElement.style.setProperty('--k-accent', hex)`.
+The three named palettes are lifted from real projects so they're authentic:
+`geometric` (violet on plum, system sans), `mafia` (black/coal + gold + blood,
+**Cormorant Garamond** serif), `settrainer` (magenta on plum, system sans). Only
+`mafia` pulls a web font; the rest use the system stack like the source projects.
+Add your own by copying a `:root[data-theme="…"]` block in `tokens.css`. For a live
+accent tweak: `document.documentElement.style.setProperty('--k-accent', hex)`.
 
 ## PWA & SEO
 

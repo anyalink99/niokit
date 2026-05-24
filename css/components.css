@@ -24,6 +24,7 @@
 .k-btn--ghost { background: transparent; }
 .k-btn--ghost:hover { background: var(--k-surface); }
 .k-btn--danger { background: var(--k-danger); color: #fff; border-color: transparent; }
+.k-btn--danger:hover { background: var(--k-danger); filter: brightness(1.08); }
 .k-btn--block { width: 100%; }
 .k-btn--sm { min-height: 36px; padding: 0 12px; font-size: 13px; border-radius: var(--k-r-sm); }
 .k-btn--lg { min-height: 52px; padding: 0 24px; font-size: 16px; }
@@ -36,6 +37,7 @@
   box-shadow: 0 4px 0 color-mix(in srgb, var(--k-accent) 62%, #000);
   transition: transform var(--k-dur-1) var(--k-ease), box-shadow var(--k-dur-1) var(--k-ease);
 }
+.k-btn--3d:hover { background: var(--k-accent); filter: brightness(1.06); }
 .k-btn--3d:active { transform: translateY(2px); box-shadow: 0 2px 0 color-mix(in srgb, var(--k-accent) 62%, #000); }
 
 /* ---- segmented control ------------------------------------------------ */
@@ -106,7 +108,9 @@ textarea.k-field { padding: 12px 14px; resize: vertical; line-height: 1.4; }
 .k-screen--enter-fwd { animation: k-enter-right var(--k-dur-3) var(--k-ease) both; box-shadow: -24px 0 60px -10px rgba(0,0,0,0.55); }
 .k-screen--exit-fwd  { animation: k-exit-left  var(--k-dur-3) var(--k-ease) both; }
 .k-screen--enter-back { animation: k-enter-left var(--k-dur-3) var(--k-ease) both; }
-.k-screen--exit-back  { animation: k-exit-right var(--k-dur-3) var(--k-ease) both; box-shadow: -24px 0 60px -10px rgba(0,0,0,0.55); }
+/* no box-shadow on the LEAVING screen: a left-cast shadow of an off-screen-right
+   panel leaves a dark residue at the right edge that snaps away on removal. */
+.k-screen--exit-back  { animation: k-exit-right var(--k-dur-3) var(--k-ease) both; }
 
 /* ---- scroll lock (set on <html> by overlays) -------------------------- */
 .k-scroll-locked { overflow: hidden !important; }

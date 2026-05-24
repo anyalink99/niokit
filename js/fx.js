@@ -11,6 +11,7 @@
   const EASE = 'cubic-bezier(0.22, 1, 0.36, 1)';
 
   const fx = {
+    _z: 20,
     /* smoothly morph height across a DOM mutation (Web Animations API) */
     animateHeight(el, mutate, opts) {
       const from = el.offsetHeight;
@@ -54,6 +55,43 @@
       };
       el.addEventListener('pointerup', end); el.addEventListener('pointercancel', () => { down = false; });
       return el;
+    },
+
+    /* make an absolutely-positioned element draggable by `handle` (or itself);
+       updates left/top, lifts z-index. Powers moodboard-style canvases. */
+    draggable(el, opts) {
+      opts = opts || {};
+      const handle = opts.handle ? (typeof opts.handle === 'string' ? el.querySelector(opts.handle) : opts.handle) : el;
+      let down = false, sx = 0, sy = 0, ox = 0, oy = 0;
+      const start = (e) => {
+        if (e.button === 1 || e.button === 2) return;
+        down = true; sx = e.clientX; sy = e.clientY;
+        ox = parseFloat(el.style.left) || el.offsetLeft; oy = parseFloat(el.style.top) || el.offsetTop;
+        el.style.zIndex = ++fx._z; el.classList.add('is-dragging');
+        try { handle.setPointerCapture(e.pointerId); } catch (_) {}
+        e.preventDefault();
+      };
+      const move = (e) => { if (!down) return; const x = ox + (e.clientX - sx), y = oy + (e.clientY - sy); el.style.left = x + 'px'; el.style.top = y + 'px'; if (opts.onMove) opts.onMove(x, y); };
+      const end = () => { if (!down) return; down = false; el.classList.remove('is-dragging'); if (opts.onEnd) opts.onEnd(parseFloat(el.style.left) || 0, parseFloat(el.style.top) || 0); };
+      handle.addEventListener('pointerdown', start);
+      handle.addEventListener('pointermove', move);
+      handle.addEventListener('pointerup', end);
+      handle.addEventListener('pointercancel', end);
+      return () => { handle.removeEventListener('pointerdown', start); handle.removeEventListener('pointermove', move); handle.removeEventListener('pointerup', end); };
+    },
+
+    /* drag `handle` to resize `target` along an axis; persists to storage. */
+    resizable(handle, opts) {
+      opts = opts || {};
+      const target = typeof opts.target === 'string' ? document.querySelector(opts.target) : opts.target;
+      const axis = opts.axis || 'x', dim = axis === 'x' ? 'width' : 'height';
+      const min = opts.min || 200, max = opts.max || 4000;
+      if (opts.storageKey) { const v = K.storage.getInt(opts.storageKey, 0); if (v) target.style[dim] = v + 'px'; }
+      let down = false, s = 0, base = 0;
+      handle.addEventListener('pointerdown', (e) => { down = true; s = axis === 'x' ? e.clientX : e.clientY; base = axis === 'x' ? target.offsetWidth : target.offsetHeight; try { handle.setPointerCapture(e.pointerId); } catch (_) {} e.preventDefault(); });
+      handle.addEventListener('pointermove', (e) => { if (!down) return; const d = ((axis === 'x' ? e.clientX : e.clientY) - s) * (opts.invert ? -1 : 1); target.style[dim] = Math.max(min, Math.min(max, base + d)) + 'px'; if (opts.onResize) opts.onResize(); });
+      const end = () => { if (!down) return; down = false; if (opts.storageKey) K.storage.set(opts.storageKey, parseInt(target.style[dim], 10)); };
+      handle.addEventListener('pointerup', end); handle.addEventListener('pointercancel', end);
     },
 
     /* subtle 3D tilt toward the pointer; returns a disposer */

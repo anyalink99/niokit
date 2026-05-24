@@ -40,6 +40,13 @@
 .k-fade-in  { animation: k-fade-in var(--k-dur-2) var(--k-ease) both; }
 .k-spin { animation: k-spin 0.9s linear infinite; }
 
+/* ---- theme / page crossfade via the View Transitions API -------------- */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: var(--k-dur-3);
+  animation-timing-function: var(--k-ease);
+}
+
 /* ---- respect reduced motion ------------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
