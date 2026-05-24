@@ -23,7 +23,7 @@
 .k-btn--primary:hover { background: var(--k-accent); filter: brightness(1.05); }
 .k-btn--ghost { background: transparent; }
 .k-btn--ghost:hover { background: var(--k-surface); }
-.k-btn--danger { background: var(--k-danger); color: #2a0d0d; border-color: transparent; }
+.k-btn--danger { background: var(--k-danger); color: #fff; border-color: transparent; }
 .k-btn--block { width: 100%; }
 .k-btn--sm { min-height: 36px; padding: 0 12px; font-size: 13px; border-radius: var(--k-r-sm); }
 .k-btn--lg { min-height: 52px; padding: 0 24px; font-size: 16px; }
@@ -45,17 +45,23 @@
   font-size: 13px; color: var(--k-text-3); cursor: pointer; white-space: nowrap;
   transition: color var(--k-dur-1), background var(--k-dur-1);
 }
+.k-segment__opt:hover { color: var(--k-text-2); }
 .k-segment__opt:active { transform: scale(0.96); }
 .k-segment__opt.is-on { background: var(--k-text); color: var(--k-bg); }
 
 /* ---- toggle switch ---------------------------------------------------- */
-.k-switch { position: relative; display: inline-block; width: 46px; height: 28px; flex: none; }
+.k-switch { position: relative; display: inline-block; width: 46px; height: 28px; flex: none; cursor: pointer; }
 .k-switch input { position: absolute; inset: 0; margin: 0; opacity: 0; cursor: pointer; }
 .k-switch__track { display: block; width: 100%; height: 100%; border-radius: var(--k-r-pill); background: var(--k-surface-2); border: 1px solid var(--k-line); transition: background var(--k-dur-1) var(--k-ease), border-color var(--k-dur-1); }
-.k-switch__track::after { content: ""; position: absolute; top: 3px; left: 3px; width: 22px; height: 22px; border-radius: var(--k-r-pill); background: var(--k-text-2); transition: transform var(--k-dur-2) var(--k-ease-spring), background var(--k-dur-1); }
+.k-switch__track::after { content: ""; position: absolute; top: 3px; left: 3px; width: 22px; height: 22px; border-radius: var(--k-r-pill); background: var(--k-text-2); transition: transform var(--k-dur-2) var(--k-ease-spring), width var(--k-dur-1) var(--k-ease), background var(--k-dur-1); }
+.k-switch:hover .k-switch__track { border-color: var(--k-line-2); }
+.k-switch input:focus-visible + .k-switch__track { outline: 2px solid var(--k-accent); outline-offset: 2px; }
+.k-switch input:active + .k-switch__track::after { width: 26px; }                 /* tactile stretch on press */
 .k-switch input:checked + .k-switch__track { background: var(--k-accent); border-color: transparent; }
 .k-switch input:checked + .k-switch__track::after { transform: translateX(18px); background: var(--k-accent-ink); }
+.k-switch input:checked:active + .k-switch__track::after { transform: translateX(14px); width: 26px; }
 .k-switch input:disabled + .k-switch__track { opacity: 0.5; }
+.k-switch:has(input:disabled) { cursor: not-allowed; }
 
 /* ---- settings row ----------------------------------------------------- */
 .k-row { display: flex; align-items: center; justify-content: space-between; gap: 14px; width: 100%; padding: 13px 14px; background: var(--k-surface); border: 1px solid var(--k-line); border-radius: var(--k-r-md); text-align: left; }

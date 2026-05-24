@@ -72,10 +72,37 @@ kitchen-sink of every component and module.
 
 | File | What |
 |---|---|
-| `tokens.css` | all `--k-*` design tokens + dark (default) & light themes |
+| `tokens.css` | all `--k-*` design tokens + themes (default dark, `light`, `geometric`, `mafia`, `settrainer`) |
 | `reset.css` | conservative reset + optional `.k-app` locked-viewport shell |
 | `motion.css` | keyframe library, `.k-reveal` stagger util, reduced-motion guard |
 | `components.css` | `k-btn`, `k-segment`, `k-switch`, `k-row`, `k-card`, `k-chip`, `k-range`, `k-field`, `k-screen`, `k-modal`, `k-sheet`, `k-toast`, `k-cp` |
+
+## Themes
+
+Set `data-theme` on `<html>` to switch palette (and font) instantly — everything
+that reads `--k-*` repaints, app components and your own chrome alike:
+
+```js
+Kit.setTheme('mafia');   // 'geometric' | 'mafia' | 'settrainer' | 'light' | null (default dark)
+```
+
+The three named palettes are lifted from real projects so they're battle-tested:
+`geometric` (violet on plum), `mafia` (stone + gold + blood, serif display),
+`settrainer` (magenta on plum). Add your own by copying a `:root[data-theme="…"]`
+block in `tokens.css`. For a live accent tweak, just set the var directly:
+`document.documentElement.style.setProperty('--k-accent', hex)`.
+
+## PWA & SEO
+
+The demo ships an installable, offline-capable, shareable setup you can copy:
+
+- `manifest.webmanifest` + icons (`icon.svg`, `icon-192/512.png`, maskable, apple-touch).
+- `service-worker.js` — network-first for html/js/css, cache-first for assets,
+  stale-while-revalidate for Google Fonts / Tailwind CDN, offline fallback. Bump
+  `CACHE_NAME` per release. Registered only over http(s) (no-op on `file://`).
+- Rich `<head>`: description, `theme-color` (kept in sync with the active palette),
+  OpenGraph + Twitter cards, canonical, JSON-LD; plus `robots.txt` + `sitemap.xml`.
+- `og-image.png` (1200×630) generated from the icon.
 
 ## Conventions
 

@@ -1,9 +1,49 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" data-theme="geometric">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Kit — kitchen sink</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+
+  <!-- SEO / social (mirrors geometric.games' setup) -->
+  <title>Kit — a vanilla front-end stack</title>
+  <meta name="description" content="Kit — a framework-free front-end stack: design tokens, motion, app skeletons, accessible overlays and components. No build step, runs from file://." />
+  <meta name="author" content="Kit" />
+  <meta name="theme-color" content="#1a161d" id="meta-theme" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Kit — a vanilla front-end stack" />
+  <meta property="og:description" content="Design tokens, motion, app skeletons, accessible overlays and components. No build step." />
+  <meta property="og:site_name" content="Kit" />
+  <meta property="og:image" content="og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Kit — a vanilla front-end stack" />
+  <meta name="twitter:description" content="Design tokens, motion, app skeletons, accessible overlays and components." />
+  <meta name="twitter:image" content="og-image.png" />
+  <link rel="canonical" href="./" />
+  <link rel="icon" type="image/svg+xml" href="icon.svg" />
+  <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png" />
+  <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+  <link rel="mask-icon" href="icon.svg" color="#c084fc" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <script type="application/ld+json">
+  { "@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Kit",
+    "applicationCategory": "DeveloperApplication", "operatingSystem": "Any (browser)",
+    "description": "A framework-free front-end stack: tokens, motion, app skeletons, overlays and components.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" } }
+  </script>
+
+  <!-- restore the chosen palette before first paint (no flash) -->
+  <script>
+    try { var t = localStorage.getItem('kit.demo.theme') || 'geometric';
+      if (t === 'default') document.documentElement.removeAttribute('data-theme');
+      else document.documentElement.setAttribute('data-theme', t); } catch (e) {}
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Manrope:wght@400;500;600;700;800&family=Sora:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="css/tokens.css" />
   <link rel="stylesheet" href="css/reset.css" />
@@ -11,182 +51,264 @@
   <link rel="stylesheet" href="css/components.css" />
 
   <style>
-    /* demo-page chrome only — NOT part of the kit */
-    body { padding: 0 0 80px; }
-    .wrap { max-width: 780px; margin: 0 auto; padding: 0 20px; }
-    .hero { padding: 48px 0 24px; }
-    .hero h1 { font-size: 40px; font-weight: 800; letter-spacing: -0.02em; }
-    .hero p { color: var(--k-text-2); margin-top: 8px; max-width: 52ch; }
-    .topbar { position: sticky; top: 0; z-index: 50; display: flex; align-items: center; justify-content: space-between;
-      padding: 12px 20px; background: color-mix(in srgb, var(--k-bg) 86%, transparent); backdrop-filter: blur(10px); border-bottom: 1px solid var(--k-line); }
-    .topbar b { font-weight: 800; letter-spacing: -0.01em; }
-    section.demo { padding: 26px 0; border-top: 1px solid var(--k-line); }
-    section.demo > h2 { font-size: 13px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--k-text-3); margin-bottom: 16px; }
+    /* ---- demo chrome only (uses kit tokens so it retheme-s too) ---- */
+    html { scrollbar-gutter: stable; }
+    body { font-family: var(--k-font); }
+    .mono { font-family: var(--k-font-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--k-text-3); }
+
+    .shell { display: grid; grid-template-columns: 264px 1fr; align-items: start; }
+
+    /* left rail */
+    .rail { position: sticky; top: 0; height: 100vh; display: flex; flex-direction: column; padding: 26px 22px; border-right: 1px solid var(--k-line); background: var(--k-bg); }
+    .brand { display: flex; align-items: center; gap: 12px; }
+    .brand img { width: 38px; height: 38px; border-radius: 11px; }
+    .brand .wm { font-family: var(--k-font-display); font-size: 30px; font-weight: 700; letter-spacing: -0.02em; line-height: 1; }
+    .rail .tag { margin-top: 10px; }
+    .rail h4 { margin: 26px 0 10px; }
+    .palettes { display: flex; flex-direction: column; gap: 6px; }
+    .pal { display: flex; align-items: center; gap: 10px; padding: 9px 10px; border-radius: var(--k-r-md); border: 1px solid transparent; cursor: pointer; text-align: left; transition: background var(--k-dur-1), border-color var(--k-dur-1); }
+    .pal:hover { background: var(--k-surface); }
+    .pal.is-on { background: var(--k-surface); border-color: var(--k-line-2); }
+    .pal .dots { display: flex; }
+    .pal .dots i { width: 14px; height: 14px; border-radius: 50%; margin-left: -5px; border: 1.5px solid var(--k-bg); }
+    .pal .pal-name { font-size: 13.5px; font-weight: 600; }
+    .pal .pal-from { font-size: 10.5px; color: var(--k-text-3); }
+    .toc { margin-top: 8px; display: flex; flex-direction: column; }
+    .toc a { display: flex; gap: 10px; padding: 7px 10px; border-radius: 9px; color: var(--k-text-3); font-size: 13.5px; text-decoration: none; transition: color var(--k-dur-1), background var(--k-dur-1); }
+    .toc a .n { font-family: var(--k-font-mono); font-size: 11px; opacity: 0.7; }
+    .toc a:hover { color: var(--k-text-2); }
+    .toc a.is-on { color: var(--k-text); background: var(--k-surface); }
+    .rail .foot { margin-top: auto; padding-top: 18px; }
+
+    /* doc column */
+    .doc { min-width: 0; padding: 0 max(24px, 4vw) 120px; }
+    .hero { padding: 64px 0 30px; max-width: 720px; }
+    .hero .eyebrow { margin-bottom: 18px; }
+    .hero h1 { font-family: var(--k-font-display); font-weight: 700; font-size: clamp(38px, 6vw, 68px); line-height: 1.02; letter-spacing: -0.025em; }
+    .hero h1 em { font-style: italic; color: var(--k-accent); }
+    .hero p { margin-top: 18px; font-size: 18px; line-height: 1.5; color: var(--k-text-2); max-width: 56ch; }
+    .hero .meta { display: flex; gap: 22px; margin-top: 24px; flex-wrap: wrap; }
+    .hero .meta div b { font-family: var(--k-font-display); font-size: 22px; font-weight: 700; display: block; }
+
+    .spec { padding: 40px 0; border-top: 1px solid var(--k-line); }
+    .spec__head { display: flex; align-items: baseline; gap: 16px; margin-bottom: 22px; flex-wrap: wrap; }
+    .spec__no { font-family: var(--k-font-mono); font-size: 13px; color: var(--k-accent); }
+    .spec__title { font-family: var(--k-font-display); font-size: 28px; font-weight: 700; letter-spacing: -0.01em; }
+    .spec__note { margin-left: auto; max-width: 38ch; text-align: right; color: var(--k-text-3); font-size: 13px; }
     .row-flex { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
     .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .card-pad { background: var(--k-surface); border: 1px solid var(--k-line); border-radius: var(--k-r-lg); padding: 18px; }
+    .palette-strip { display: flex; gap: 8px; flex-wrap: wrap; }
+    .sw { display: flex; flex-direction: column; gap: 6px; align-items: center; }
+    .sw i { width: 54px; height: 40px; border-radius: 10px; border: 1px solid var(--k-line); display: block; }
+    .sw span { font-family: var(--k-font-mono); font-size: 9.5px; color: var(--k-text-3); }
+    .kbd { font-family: var(--k-font-mono); background: var(--k-surface-2); border: 1px solid var(--k-line); border-radius: 6px; padding: 2px 8px; font-size: 12px; }
+    .kb-key { min-width: 148px; justify-content: center; }
     .demo-device { width: 300px; max-width: 100%; border: 1px solid var(--k-line-2); border-radius: var(--k-r-xl); overflow: hidden; background: var(--k-bg); box-shadow: var(--k-shadow-2); display: flex; flex-direction: column; }
     .demo-device .k-stage { height: 280px; }
     .demo-tabbar { display: flex; border-top: 1px solid var(--k-line); }
-    .demo-tabbar button { flex: 1; padding: 12px; color: var(--k-text-3); font-size: 12px; }
+    .demo-tabbar button { flex: 1; padding: 12px; color: var(--k-text-3); font-size: 12px; transition: color var(--k-dur-1); }
     .demo-tabbar button.is-on { color: var(--k-text); }
     .pad { padding: 22px; }
-    .pad h3 { font-size: 22px; font-weight: 700; margin-bottom: 6px; }
+    .pad h3 { font-family: var(--k-font-display); font-size: 22px; font-weight: 700; margin-bottom: 6px; }
     .muted { color: var(--k-text-3); font-size: 13px; }
-    .kbd { font-family: var(--k-font-mono); background: var(--k-surface-2); border: 1px solid var(--k-line); border-radius: 6px; padding: 2px 8px; font-size: 12px; }
-    .swatches { display: flex; gap: 6px; flex-wrap: wrap; }
-    .swatches button { width: 26px; height: 26px; border-radius: 8px; border: 1px solid var(--k-line-2); }
+    .feat { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--k-line); font-size: 14px; }
+    .feat::before { content: "✓"; color: var(--k-accent); font-weight: 700; }
+
+    /* mobile */
+    .rail-toggle { display: none; }
+    @media (max-width: 860px) {
+      .shell { grid-template-columns: 1fr; }
+      .rail { position: static; height: auto; flex-direction: column; border-right: 0; border-bottom: 1px solid var(--k-line); }
+      .toc { display: none; }
+      .doc { padding: 0 20px 100px; }
+      .spec__note { display: none; }
+    }
   </style>
 </head>
 <body>
-  <div class="topbar">
-    <b>🧩 Kit <span class="muted" id="ver"></span></b>
-    <div class="row-flex">
-      <span class="muted">Тема</span>
-      <label class="k-switch"><input type="checkbox" id="theme-toggle"><span class="k-switch__track"></span></label>
-    </div>
+  <div class="shell">
+    <!-- ░░ RAIL ░░ -->
+    <aside class="rail">
+      <div class="brand"><img src="icon.svg" alt="" /><span class="wm">Kit</span></div>
+      <div class="tag mono">vanilla front-end stack</div>
+
+      <h4 class="mono">Palette</h4>
+      <div class="palettes" id="palettes"></div>
+
+      <h4 class="mono">Index</h4>
+      <nav class="toc" id="toc"></nav>
+
+      <div class="foot mono">v0.1.0 · MIT · best-of geometric · mafia · settrainer</div>
+    </aside>
+
+    <!-- ░░ DOC ░░ -->
+    <main class="doc">
+      <header class="hero">
+        <div class="eyebrow mono">Field manual</div>
+        <h1>Собери оболочку <em>один раз.</em></h1>
+        <p>Токены, движок анимаций, скелеты приложений, доступные оверлеи и компоненты — собранные из лучшего в твоих проектах. Без сборки, открывается с <span class="kbd">file://</span>.</p>
+        <div class="meta">
+          <div><b id="m-modules">11</b><span class="mono">модулей JS</span></div>
+          <div><b>4</b><span class="mono">палитры-темы</span></div>
+          <div><b>0</b><span class="mono">зависимостей</span></div>
+        </div>
+      </header>
+
+      <!-- 01 Foundations -->
+      <section class="spec" id="sec-01">
+        <div class="spec__head"><span class="spec__no">01</span><span class="spec__title">Основа</span>
+          <span class="spec__note">Токены — единственный источник правды. Перекрась одну <span class="kbd">--k-*</span> — обновится и кит, и страница.</span></div>
+        <div class="palette-strip" id="token-strip"></div>
+        <p class="muted" style="margin-top:14px">Шрифт темы: <b id="font-name" style="font-family:var(--k-font-display)">—</b>. Длительности/easings тоже токены — JS читает их через <span class="kbd">Kit.cssMs()</span>.</p>
+      </section>
+
+      <!-- 02 Buttons -->
+      <section class="spec" id="sec-02">
+        <div class="spec__head"><span class="spec__no">02</span><span class="spec__title">Кнопки</span>
+          <span class="spec__note">Делегированный <span class="kbd">data-action</span> → <span class="kbd">Kit.dispatch</span>.</span></div>
+        <div class="row-flex">
+          <button class="k-btn k-btn--primary" data-action="say" data-msg="Primary">Primary</button>
+          <button class="k-btn" data-action="say" data-msg="Default">Default</button>
+          <button class="k-btn k-btn--ghost" data-action="say" data-msg="Ghost">Ghost</button>
+          <button class="k-btn k-btn--danger" data-action="say" data-msg="Danger">Danger</button>
+          <button class="k-btn k-btn--3d" data-action="say" data-msg="3D">3D press</button>
+          <button class="k-btn" disabled>Disabled</button>
+          <button class="k-btn k-btn--icon" aria-label="add" data-action="say" data-msg="Icon">＋</button>
+        </div>
+      </section>
+
+      <!-- 03 Controls -->
+      <section class="spec" id="sec-03">
+        <div class="spec__head"><span class="spec__no">03</span><span class="spec__title">Контролы</span>
+          <span class="spec__note">Сегмент, свитч, range, чипы, карточки — все рабочие и тактильные.</span></div>
+        <div class="k-segment" id="seg" style="margin-bottom:16px">
+          <button class="k-segment__opt is-on" data-seg="day">День</button>
+          <button class="k-segment__opt" data-seg="week">Неделя</button>
+          <button class="k-segment__opt" data-seg="all">Всё</button>
+        </div>
+        <div class="k-row"><span class="k-row__label">Уведомления</span><label class="k-switch"><input type="checkbox" checked><span class="k-switch__track"></span></label></div>
+        <div class="k-row"><span class="k-row__label">Звук<div class="k-row__hint">щелчок при касании</div></span><label class="k-switch"><input type="checkbox"><span class="k-switch__track"></span></label></div>
+        <div class="k-row"><span class="k-row__label">Вибрация<div class="k-row__hint">недоступно на этом устройстве</div></span><label class="k-switch"><input type="checkbox" disabled><span class="k-switch__track"></span></label></div>
+        <div class="k-row"><span class="k-row__label">Громкость</span><input class="k-range" id="vol" type="range" min="0" max="100" value="60" style="max-width:160px"></div>
+        <div class="row-flex" style="margin-top:14px" id="chips">
+          <button class="k-chip is-on">6a</button><button class="k-chip">6b</button><button class="k-chip">6c</button><button class="k-chip">7a</button><button class="k-chip">7b</button>
+          <div class="k-spinner" title="spinner"></div>
+        </div>
+        <div class="grid2" style="margin-top:14px" id="cards">
+          <button class="k-card is-on"><b>Standard</b><div class="muted">81 карта</div></button>
+          <button class="k-card"><b>Classic</b><div class="muted">12 фигур</div></button>
+        </div>
+        <input class="k-field" placeholder="Текстовое поле…" style="margin-top:14px">
+      </section>
+
+      <!-- 04 Overlays -->
+      <section class="spec" id="sec-04">
+        <div class="spec__head"><span class="spec__no">04</span><span class="spec__title">Оверлеи</span>
+          <span class="spec__note">Focus-trap, Escape, scroll-lock без сдвига страницы, стекинг.</span></div>
+        <div class="row-flex">
+          <button class="k-btn k-btn--primary" data-action="modal">Модалка</button>
+          <button class="k-btn" data-action="sheet">Шит</button>
+          <button class="k-btn" data-action="toast" data-type="default">Toast</button>
+          <button class="k-btn" data-action="toast" data-type="good">Good</button>
+          <button class="k-btn" data-action="toast" data-type="warn">Warn</button>
+          <button class="k-btn" data-action="toast" data-type="danger">Danger</button>
+        </div>
+      </section>
+
+      <!-- 05 Screens -->
+      <section class="spec" id="sec-05">
+        <div class="spec__head"><span class="spec__no">05</span><span class="spec__title">Скелеты экранов</span>
+          <span class="spec__note">Kit.screens — плоские табы. Kit.nav — push/pop слайд-стек.</span></div>
+        <div class="row-flex" style="align-items:flex-start;gap:24px">
+          <div class="demo-device">
+            <div class="k-stage" id="tabs-stage">
+              <section class="k-screen" data-screen="t1"><div class="pad"><h3>Лента</h3><p class="muted">Кроссфейд между экранами в DOM.</p></div></section>
+              <section class="k-screen" data-screen="t2"><div class="pad"><h3>Поиск</h3><p class="muted">onEnter-хук на входе.</p></div></section>
+              <section class="k-screen" data-screen="t3"><div class="pad"><h3>Профиль</h3><p class="muted">Для tab-bar навигации.</p></div></section>
+            </div>
+            <div class="demo-tabbar" id="tabs-bar">
+              <button class="is-on" data-tab="t1">Лента</button><button data-tab="t2">Поиск</button><button data-tab="t3">Профиль</button>
+            </div>
+          </div>
+          <div class="demo-device"><div class="k-stage" id="nav-stage"></div></div>
+        </div>
+      </section>
+
+      <!-- 06 State -->
+      <section class="spec" id="sec-06">
+        <div class="spec__head"><span class="spec__no">06</span><span class="spec__title">Реактивный стор</span>
+          <span class="spec__note">Один <span class="kbd">set</span> — оба представления обновляются за один кадр.</span></div>
+        <div class="row-flex">
+          <button class="k-btn" data-action="dec">−</button>
+          <div style="font-family:var(--k-font-display);font-size:30px;font-weight:800;min-width:54px;text-align:center" id="count-a">0</div>
+          <button class="k-btn" data-action="inc">+</button>
+          <span class="muted">второй подписчик →</span><b id="count-b">0</b>
+        </div>
+      </section>
+
+      <!-- 07 Color & theme -->
+      <section class="spec" id="sec-07">
+        <div class="spec__head"><span class="spec__no">07</span><span class="spec__title">Color picker</span>
+          <span class="spec__note">SV-квадрат + hue + hex, pointer&touch. Меняет акцент текущей темы вживую.</span></div>
+        <div id="cp-inline"></div>
+      </section>
+
+      <!-- 08 Keys -->
+      <section class="spec" id="sec-08">
+        <div class="spec__head"><span class="spec__no">08</span><span class="spec__title">Хоткеи</span>
+          <span class="spec__note">Capture/rebind, раскладко-независимо (<span class="kbd">event.code</span>), авто-дедуп.</span></div>
+        <div class="grid2" id="kb-rows"></div>
+      </section>
+
+      <!-- 09 Motion -->
+      <section class="spec" id="sec-09">
+        <div class="spec__head"><span class="spec__no">09</span><span class="spec__title">FX</span>
+          <span class="spec__note">animateHeight (FLIP), long-press, swipe, press, tilt.</span></div>
+        <div class="row-flex" style="margin-bottom:14px">
+          <button class="k-btn" data-action="morph">animateHeight</button>
+          <button class="k-btn" id="lp">Long-press</button>
+          <button class="k-btn" id="swipezone">Свайпни ↔</button>
+        </div>
+        <div class="card-pad" id="morph-box"><p>Нажми «animateHeight» — блок плавно сморфит высоту при смене контента.</p></div>
+      </section>
+
+      <!-- 10 PWA -->
+      <section class="spec" id="sec-10">
+        <div class="spec__head"><span class="spec__no">10</span><span class="spec__title">PWA &amp; SEO</span>
+          <span class="spec__note">Установка, офлайн, шеринг — как в geometric.games + service-worker как в mafia.</span></div>
+        <div class="grid2">
+          <div class="card-pad">
+            <div class="mono" style="margin-bottom:8px">Wired in this page</div>
+            <div class="feat">manifest.webmanifest + иконки</div>
+            <div class="feat">service-worker (network-first html/js/css)</div>
+            <div class="feat">OpenGraph + Twitter + JSON-LD</div>
+            <div class="feat" style="border-bottom:0">theme-color следует за палитрой</div>
+          </div>
+          <div class="card-pad">
+            <div class="mono" style="margin-bottom:8px">Status</div>
+            <p class="muted" id="pwa-status">…</p>
+            <button class="k-btn k-btn--sm" data-action="install" style="margin-top:12px;display:none" id="install-btn">Установить приложение</button>
+          </div>
+        </div>
+      </section>
+    </main>
   </div>
 
-  <div class="wrap">
-    <div class="hero">
-      <h1>Kit</h1>
-      <p>Переиспользуемый стек для vanilla-проектов: токены, анимации, скелеты приложений, оверлеи и компоненты. Без сборки — открывается с <span class="kbd">file://</span>.</p>
-    </div>
-
-    <!-- BUTTONS -->
-    <section class="demo">
-      <h2>Кнопки</h2>
-      <div class="row-flex">
-        <button class="k-btn k-btn--primary" data-action="say" data-msg="Primary">Primary</button>
-        <button class="k-btn" data-action="say" data-msg="Default">Default</button>
-        <button class="k-btn k-btn--ghost" data-action="say" data-msg="Ghost">Ghost</button>
-        <button class="k-btn k-btn--danger" data-action="say" data-msg="Danger">Danger</button>
-        <button class="k-btn k-btn--3d" data-action="say" data-msg="3D press">3D press</button>
-        <button class="k-btn" disabled>Disabled</button>
-        <button class="k-btn k-btn--icon" aria-label="add" data-action="say" data-msg="Icon">＋</button>
-      </div>
-      <p class="muted" style="margin-top:10px">Через делегированный <span class="kbd">data-action</span> → <span class="kbd">Kit.dispatch</span>.</p>
-    </section>
-
-    <!-- CONTROLS -->
-    <section class="demo">
-      <h2>Контролы</h2>
-      <div class="k-segment" id="seg" style="margin-bottom:16px">
-        <button class="k-segment__opt is-on" data-seg="day">День</button>
-        <button class="k-segment__opt" data-seg="week">Неделя</button>
-        <button class="k-segment__opt" data-seg="all">Всё</button>
-      </div>
-      <div class="k-row"><span class="k-row__label">Уведомления</span><label class="k-switch"><input type="checkbox" checked><span class="k-switch__track"></span></label></div>
-      <div class="k-row"><span class="k-row__label">Звук <div class="k-row__hint">щелчок при касании</div></span><label class="k-switch"><input type="checkbox"><span class="k-switch__track"></span></label></div>
-      <div class="k-row"><span class="k-row__label">Громкость</span><input class="k-range" type="range" min="0" max="100" value="60" style="max-width:160px"></div>
-      <div class="row-flex" style="margin-top:14px">
-        <button class="k-chip is-on">6a</button><button class="k-chip">6b</button><button class="k-chip">6c</button><button class="k-chip">7a</button>
-        <div class="k-spinner" title="spinner"></div>
-      </div>
-      <div class="grid2" style="margin-top:14px">
-        <button class="k-card is-on"><b>Standard</b><div class="muted">81 карта</div></button>
-        <button class="k-card"><b>Classic</b><div class="muted">12 фигур</div></button>
-      </div>
-      <input class="k-field" placeholder="Текстовое поле…" style="margin-top:14px">
-    </section>
-
-    <!-- OVERLAYS -->
-    <section class="demo">
-      <h2>Оверлеи</h2>
-      <div class="row-flex">
-        <button class="k-btn k-btn--primary" data-action="modal">Открыть модалку</button>
-        <button class="k-btn" data-action="sheet">Открыть шит</button>
-        <button class="k-btn" data-action="toast" data-type="default">Toast</button>
-        <button class="k-btn" data-action="toast" data-type="good">Good</button>
-        <button class="k-btn" data-action="toast" data-type="warn">Warn</button>
-        <button class="k-btn" data-action="toast" data-type="danger">Danger</button>
-      </div>
-      <p class="muted" style="margin-top:10px">Модалка: focus-trap, Escape, клик по фону, scroll-lock, стекинг. Шит: свайп вниз (схвати за «ручку»).</p>
-    </section>
-
-    <!-- SCREENS: flat tabs -->
-    <section class="demo">
-      <h2>Скелет · плоские табы (Kit.screens)</h2>
-      <div class="demo-device">
-        <div class="k-stage" id="tabs-stage">
-          <section class="k-screen" data-screen="t1"><div class="pad"><h3>Лента</h3><p class="muted">Кроссфейд между экранами. Все экраны в DOM, переключаются классом <span class="kbd">.is-active</span>.</p></div></section>
-          <section class="k-screen" data-screen="t2"><div class="pad"><h3>Поиск</h3><p class="muted">onEnter-хук пишет в консоль при входе на экран.</p></div></section>
-          <section class="k-screen" data-screen="t3"><div class="pad"><h3>Профиль</h3><p class="muted">Подходит для tab-bar навигации.</p></div></section>
-        </div>
-        <div class="demo-tabbar" id="tabs-bar">
-          <button class="is-on" data-tab="t1">Лента</button>
-          <button data-tab="t2">Поиск</button>
-          <button data-tab="t3">Профиль</button>
-        </div>
-      </div>
-    </section>
-
-    <!-- SCREENS: push/pop stack -->
-    <section class="demo">
-      <h2>Скелет · push/pop стек (Kit.nav)</h2>
-      <div class="demo-device"><div class="k-stage" id="nav-stage"></div></div>
-      <p class="muted" style="margin-top:10px">iOS-style слайд: экраны строятся на лету, <span class="kbd">push</span>/<span class="kbd">back</span> со скольжением и параллаксом.</p>
-    </section>
-
-    <!-- STORE -->
-    <section class="demo">
-      <h2>Реактивный стор (Kit.createStore)</h2>
-      <div class="row-flex">
-        <button class="k-btn" data-action="dec">−</button>
-        <div style="font-size:28px;font-weight:800;min-width:48px;text-align:center" id="count-a">0</div>
-        <button class="k-btn" data-action="inc">+</button>
-        <span class="muted">второй подписчик:</span>
-        <b id="count-b">0</b>
-      </div>
-      <p class="muted" style="margin-top:10px">Один <span class="kbd">set</span> — оба представления обновляются, изменение коалесцируется в один кадр.</p>
-    </section>
-
-    <!-- COLOR PICKER + theming -->
-    <section class="demo">
-      <h2>Color picker + живая тема</h2>
-      <div class="row-flex">
-        <button class="k-btn k-btn--primary" data-action="accent">Сменить акцент</button>
-        <span class="muted">или быстрые свотчи:</span>
-        <div class="swatches" id="accent-swatches"></div>
-      </div>
-      <div id="cp-inline" style="margin-top:16px"></div>
-    </section>
-
-    <!-- KEYBINDS -->
-    <section class="demo">
-      <h2>Хоткеи (Kit.keybinds)</h2>
-      <div class="grid2" id="kb-rows"></div>
-      <p class="muted" style="margin-top:10px">Жми «Назначить», затем любую клавишу. Раскладко-независимо (по <span class="kbd">event.code</span>), дубликаты снимаются автоматически.</p>
-    </section>
-
-    <!-- FX -->
-    <section class="demo">
-      <h2>FX</h2>
-      <div class="row-flex" style="margin-bottom:14px">
-        <button class="k-btn" data-action="morph">animateHeight (FLIP)</button>
-        <button class="k-btn k-card" id="lp" style="width:auto">Long-press меня</button>
-        <button class="k-btn" id="swipezone">Свайпни ↔</button>
-      </div>
-      <div id="morph-box" style="background:var(--k-surface);border:1px solid var(--k-line);border-radius:var(--k-r-md);padding:16px">
-        <p>Нажми «animateHeight» — высота этого блока плавно сморфится при смене содержимого.</p>
-      </div>
-    </section>
-  </div>
-
-  <!-- pre-existing modal markup (open by id) -->
+  <!-- pre-existing modal markup -->
   <div class="k-modal" id="demo-modal">
     <div class="k-modal__backdrop"></div>
     <div class="k-modal__panel">
-      <h2 style="font-size:24px;font-weight:700;margin-bottom:8px">Модалка</h2>
-      <p class="muted" style="margin-bottom:16px">Tab ходит по кругу внутри, Escape закрывает, фокус вернётся на кнопку.</p>
+      <h2 style="font-family:var(--k-font-display);font-size:26px;font-weight:700;margin-bottom:8px">Модалка</h2>
+      <p class="muted" style="margin-bottom:16px">Tab ходит по кругу, Escape закрывает, фокус вернётся на кнопку, фон не уезжает.</p>
       <input class="k-field" placeholder="Фокус сюда при открытии" style="margin-bottom:10px">
       <div class="row-flex">
-        <button class="k-btn" data-action="modal-nested">Вложенная модалка</button>
+        <button class="k-btn" data-action="modal-nested">Вложенная</button>
         <button class="k-btn k-btn--primary" id="demo-modal-ok">Ок</button>
       </div>
     </div>
   </div>
 
-  <!-- kit: load order = core → overlays → utilities -->
   <script src="js/kit.js"></script>
   <script src="js/storage.js"></script>
   <script src="js/store.js"></script>
@@ -198,101 +320,6 @@
   <script src="js/fx.js"></script>
   <script src="js/color-picker.js"></script>
   <script src="js/keybinds.js"></script>
-
-  <script>
-    const K = window.Kit;
-    K.$('#ver').textContent = 'v' + K.version;
-
-    /* theme */
-    K.$('#theme-toggle').addEventListener('change', (e) => K.setTheme(e.target.checked ? 'light' : null));
-
-    /* dispatch actions */
-    K.dispatch.actions({
-      say: (el) => K.toast(el.dataset.msg + ' нажата'),
-      modal: () => K.modal.open('demo-modal'),
-      'modal-nested': () => K.modal.open({ html: '<h2 style="font-weight:700;font-size:20px;margin-bottom:8px">Вложенная</h2><p class="muted">Стекинг: эта поверх первой. Escape закрывает верхнюю.</p>' }),
-      sheet: () => {
-        const list = Array.from({ length: 14 }, (_, i) => `<div class="k-row" style="margin-top:8px"><span class="k-row__label">Пункт ${i + 1}</span></div>`).join('');
-        K.sheet.open('<div class="k-row__label" style="font-size:20px;font-weight:700;margin-bottom:6px">Шит со списком</div><p class="muted">Свайп вниз за ручку — закрыть.</p>' + list);
-      },
-      toast: (el) => K.toast.show('Тост: ' + el.dataset.type, { type: el.dataset.type }),
-      inc: () => store.set('n', store.get('n') + 1),
-      dec: () => store.set('n', store.get('n') - 1),
-      accent: () => K.ColorPicker.open({ value: getComputedStyle(document.documentElement).getPropertyValue('--k-accent').trim() || '#c8ff5e', onChange: (hex) => document.documentElement.style.setProperty('--k-accent', hex) }),
-      morph: () => {
-        const box = K.$('#morph-box');
-        box._big = !box._big;
-        K.fx.animateHeight(box, () => { box.innerHTML = box._big
-          ? '<p>Высота плавно меняется через Web Animations API (FLIP).</p><p style="margin-top:10px">Вторая строка контента…</p><p style="margin-top:10px">…и третья, чтобы блок заметно подрос.</p>'
-          : '<p>Нажми «animateHeight» — высота этого блока плавно сморфится при смене содержимого.</p>'; });
-      },
-    }).init();
-
-    /* segment */
-    K.on(K.$('#seg'), 'click', '.k-segment__opt', (e, b) => {
-      K.$$('.k-segment__opt', K.$('#seg')).forEach((x) => x.classList.toggle('is-on', x === b));
-    });
-
-    /* modal ok */
-    K.$('#demo-modal-ok').addEventListener('click', () => K.modal.close('demo-modal'));
-
-    /* screens — flat tabs */
-    K.screens.init({ stage: '#tabs-stage', start: 't1', hooks: {
-      t2: { onEnter: () => console.log('entered Поиск') },
-    } });
-    K.on(K.$('#tabs-bar'), 'click', 'button', (e, b) => {
-      K.screens.go(b.dataset.tab);
-      K.$$('#tabs-bar button').forEach((x) => x.classList.toggle('is-on', x === b));
-    });
-
-    /* screens — push/pop stack */
-    const navHome = () => K.el('section', {}, K.el('div.pad', {},
-      K.el('h3', { text: 'Главная' }),
-      K.el('p.muted', { text: 'Нажми, чтобы уйти вглубо со слайдом.' }),
-      K.el('button.k-btn.k-btn--primary', { text: 'Открыть деталь →', style: { marginTop: '14px' }, on: { click: () => K.nav.push('detail', { n: K.nav.depth() }) } })
-    ));
-    const navDetail = (p) => K.el('section', {}, K.el('div.pad', {},
-      K.el('button.k-btn.k-btn--ghost', { text: '← Назад', on: { click: () => K.nav.back() } }),
-      K.el('h3', { text: 'Деталь #' + (p && p.n != null ? p.n : '?'), style: { marginTop: '14px' } }),
-      K.el('p.muted', { text: 'Можно уходить ещё глубже.' }),
-      K.el('button.k-btn', { text: 'Ещё глубже →', style: { marginTop: '14px' }, on: { click: () => K.nav.push('detail', { n: K.nav.depth() }) } })
-    ));
-    K.nav.init({ stage: '#nav-stage', start: 'home', screens: { home: navHome, detail: navDetail } });
-
-    /* store */
-    const store = K.createStore({ n: 0 });
-    store.on('n', (v) => { K.$('#count-a').textContent = v; K.$('#count-b').textContent = v; });
-
-    /* accent swatches */
-    ['#c8ff5e', '#f472b6', '#9bcbe6', '#fbbf24', '#c9aeee', '#4ade80'].forEach((c) => {
-      const b = K.el('button', { style: { background: c }, on: { click: () => document.documentElement.style.setProperty('--k-accent', c) } });
-      K.$('#accent-swatches').appendChild(b);
-    });
-    K.ColorPicker.mount(K.$('#cp-inline'), { value: '#c8ff5e', onChange: (hex) => document.documentElement.style.setProperty('--k-accent', hex) });
-
-    /* keybinds */
-    const kb = K.keybinds.create({ binds: { shuffle: 'Space', reset: 'KeyR', hint: 'KeyH' }, onChange: renderKeys });
-    kb.on('shuffle', () => K.toast('⌨ shuffle'));
-    kb.on('reset', () => K.toast('⌨ reset'));
-    kb.on('hint', () => K.toast('⌨ hint'));
-    kb.onCapture(() => renderKeys());
-    function renderKeys() {
-      const labels = { shuffle: 'Перемешать', reset: 'Сброс', hint: 'Подсказка' };
-      K.$('#kb-rows').innerHTML = '';
-      Object.keys(labels).forEach((a) => {
-        const row = K.el('div.k-row', {},
-          K.el('span.k-row__label', { text: labels[a] }),
-          K.el('button.k-btn.k-btn--sm', { text: kb.capturing() === a ? 'Жми клавишу…' : K.keybinds.label(kb.get(a)), on: { click: (e) => { kb.start(a); renderKeys(); e.currentTarget.textContent = 'Жми клавишу…'; } } })
-        );
-        K.$('#kb-rows').appendChild(row);
-      });
-    }
-    renderKeys();
-
-    /* fx */
-    K.fx.longpress(K.$('#lp'), () => K.toast('Long-press!'), { ms: 450 });
-    K.fx.swipe(K.$('#swipezone'), { onSwipe: (dir) => K.toast('Свайп: ' + dir) });
-    K.fx.press(K.$('#lp'));
-  </script>
+  <script src="demo.js"></script>
 </body>
 </html>

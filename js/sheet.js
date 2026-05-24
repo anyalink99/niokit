@@ -28,7 +28,7 @@
   function cleanup(inst) {
     inst.overlay.remove();
     document.removeEventListener('keydown', inst.onKey);
-    if (!open.length) document.documentElement.classList.remove('k-scroll-locked');
+    K.unlockScroll();
     if (inst.prevFocus && inst.prevFocus.focus) inst.prevFocus.focus();
     if (inst.onClose) inst.onClose();
   }
@@ -45,7 +45,7 @@
       inst.overlay.style.zIndex = baseZ() + open.length * 2;
       open.push(inst);
 
-      document.documentElement.classList.add('k-scroll-locked');
+      K.lockScroll();
       inst.overlay.classList.add('is-open');
       K.raf2(() => { inst.backdrop.style.opacity = '1'; inst.panel.style.transform = 'translateY(0)'; });
 

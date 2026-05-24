@@ -70,4 +70,21 @@ window.Kit = window.Kit || {};
 
   /* theme helper */
   K.setTheme = (name) => { if (name) document.documentElement.setAttribute('data-theme', name); else document.documentElement.removeAttribute('data-theme'); };
+
+  /* scroll lock with scrollbar-width compensation (no layout shift), ref-counted
+     so nested/stacked overlays (modal + sheet) don't unlock each other early. */
+  let lockN = 0, lockPad = '';
+  K.lockScroll = function () {
+    if (++lockN > 1) return;
+    const sw = window.innerWidth - document.documentElement.clientWidth;
+    lockPad = document.documentElement.style.paddingRight;
+    if (sw > 0) document.documentElement.style.paddingRight = sw + 'px';
+    document.documentElement.classList.add('k-scroll-locked');
+  };
+  K.unlockScroll = function () {
+    if (lockN > 0) lockN--;
+    if (lockN > 0) return;
+    document.documentElement.classList.remove('k-scroll-locked');
+    document.documentElement.style.paddingRight = lockPad;
+  };
 })(window.Kit);

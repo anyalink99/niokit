@@ -68,7 +68,7 @@
       if (dismissible) backdrop.addEventListener('click', () => M.close(overlay));
 
       open.push(inst);
-      document.documentElement.classList.add('k-scroll-locked');
+      K.lockScroll();
       overlay.classList.remove('is-closing');
       overlay.classList.add('is-open');
 
@@ -87,7 +87,7 @@
         inst.overlay.classList.remove('is-open', 'is-closing');
         inst.overlay.removeEventListener('keydown', inst.onKey);
         if (inst.created) inst.overlay.remove();
-        if (!open.length) document.documentElement.classList.remove('k-scroll-locked');
+        K.unlockScroll();
         if (inst.prevFocus && inst.prevFocus.focus) inst.prevFocus.focus();
         if (inst.onClose) inst.onClose();
       });
