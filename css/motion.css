@@ -1,0 +1,51 @@
+/* =========================================================================
+   KIT — motion library
+   Named keyframes + reveal utilities. Durations/easings come from tokens so
+   JS never needs magic numbers (overlay code closes on animationend instead).
+   ========================================================================= */
+
+@keyframes k-fade-in  { from { opacity: 0; } to { opacity: 1; } }
+@keyframes k-fade-out { from { opacity: 1; } to { opacity: 0; } }
+
+@keyframes k-pop-in  { from { opacity: 0; transform: scale(0.96) translateY(8px); } to { opacity: 1; transform: none; } }
+@keyframes k-pop-out { from { opacity: 1; transform: none; } to { opacity: 0; transform: scale(0.97) translateY(6px); } }
+
+@keyframes k-sheet-in  { from { transform: translateY(100%); } to { transform: translateY(0); } }
+@keyframes k-sheet-out { from { transform: translateY(0); } to { transform: translateY(100%); } }
+
+@keyframes k-rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+@keyframes k-fade-down { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: none; } }
+
+/* iOS-style screen stack transitions */
+@keyframes k-enter-right { from { transform: translate3d(100%, 0, 0); }          to { transform: translate3d(0, 0, 0); } }
+@keyframes k-exit-left   { from { transform: translate3d(0, 0, 0); opacity: 1; } to { transform: translate3d(-26%, 0, 0) scale(0.97); opacity: 0.4; } }
+@keyframes k-enter-left  { from { transform: translate3d(-26%, 0, 0) scale(0.97); opacity: 0.4; } to { transform: translate3d(0, 0, 0) scale(1); opacity: 1; } }
+@keyframes k-exit-right  { from { transform: translate3d(0, 0, 0); }             to { transform: translate3d(100%, 0, 0); } }
+
+@keyframes k-spin { to { transform: rotate(360deg); } }
+@keyframes k-shake {
+  10%, 90% { transform: translateX(-1px); }
+  20%, 80% { transform: translateX(2px); }
+  30%, 50%, 70% { transform: translateX(-4px); }
+  40%, 60% { transform: translateX(4px); }
+}
+
+/* ---- reveal utilities -------------------------------------------------- */
+.k-reveal {
+  opacity: 0;
+  animation: k-rise var(--k-dur-4) var(--k-ease) both;
+  animation-delay: calc(var(--i, 0) * 55ms + 60ms);
+}
+.k-fade-down { animation: k-fade-down var(--k-dur-3) var(--k-ease) both; }
+.k-fade-in  { animation: k-fade-in var(--k-dur-2) var(--k-ease) both; }
+.k-spin { animation: k-spin 0.9s linear infinite; }
+
+/* ---- respect reduced motion ------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-delay: 0ms !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

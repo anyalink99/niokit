@@ -1,0 +1,91 @@
+/* =========================================================================
+   KIT — design tokens
+   The single source of truth. Override any --k-* var in your app to retheme;
+   Tailwind (optional) can map its theme to these same vars, so one change
+   repaints both utility classes and kit components.
+   Default theme is dark; add data-theme="light" on <html> for the light set.
+   ========================================================================= */
+:root {
+  /* ---- colour: semantic surfaces & text --------------------------------- */
+  --k-bg:        #0d0d10;   /* app background           */
+  --k-surface:   #16161b;   /* raised panel / card      */
+  --k-surface-2: #1f1f26;   /* hovered / nested surface */
+  --k-text:      #f1f1f4;   /* primary text             */
+  --k-text-2:    #b4b4bd;   /* secondary text           */
+  --k-text-3:    #74747f;   /* tertiary / hints         */
+  --k-line:      rgba(255, 255, 255, 0.10);  /* hairline border */
+  --k-line-2:    rgba(255, 255, 255, 0.18);  /* stronger border */
+
+  /* ---- colour: accents & status ----------------------------------------- */
+  --k-accent:     #c8ff5e;  /* primary action / selection           */
+  --k-accent-ink: #11131a;  /* text/icon that sits ON the accent    */
+  --k-good:       #4ade80;
+  --k-warn:       #fbbf24;
+  --k-danger:     #f87171;
+
+  /* ---- typography ------------------------------------------------------- */
+  --k-font:         ui-sans-serif, system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --k-font-display: var(--k-font);
+  --k-font-mono:    ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+
+  /* ---- spacing scale (4px base) ----------------------------------------- */
+  --k-space-1: 4px;
+  --k-space-2: 8px;
+  --k-space-3: 12px;
+  --k-space-4: 16px;
+  --k-space-5: 24px;
+  --k-space-6: 32px;
+  --k-space-7: 48px;
+
+  /* ---- radii ------------------------------------------------------------ */
+  --k-r-sm:   8px;
+  --k-r-md:   12px;
+  --k-r-lg:   16px;
+  --k-r-xl:   24px;
+  --k-r-pill: 999px;
+
+  /* ---- motion: durations & easings (single source for CSS *and* JS) ------ */
+  --k-dur-1: 130ms;  /* micro: hover, press            */
+  --k-dur-2: 220ms;  /* default: modal/fade            */
+  --k-dur-3: 360ms;  /* expressive: sheet, slide       */
+  --k-dur-4: 520ms;  /* staged reveals                 */
+  --k-ease:        cubic-bezier(0.22, 1, 0.36, 1);     /* the house ease-out  */
+  --k-ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --k-ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);  /* slight overshoot    */
+  --k-ease-expo:   cubic-bezier(0.16, 1, 0.30, 1);
+
+  /* ---- elevation -------------------------------------------------------- */
+  --k-shadow-1: 0 4px 14px -6px rgba(0, 0, 0, 0.5);
+  --k-shadow-2: 0 18px 50px -12px rgba(0, 0, 0, 0.6);
+  --k-shadow-3: 0 40px 120px -20px rgba(0, 0, 0, 0.8);
+
+  /* ---- z-index scale ---------------------------------------------------- */
+  --k-z-base:     1;
+  --k-z-sticky:   100;
+  --k-z-dropdown: 300;
+  --k-z-sheet:    800;
+  --k-z-modal:    900;
+  --k-z-toast:    1000;
+
+  /* ---- misc ------------------------------------------------------------- */
+  --k-tap: 44px;     /* min touch target */
+  color-scheme: dark;
+}
+
+/* ---- light theme: flip the surfaces/text, keep the same accent ---------- */
+:root[data-theme="light"] {
+  --k-bg:        #f4f2ec;
+  --k-surface:   #ffffff;
+  --k-surface-2: #ece8df;
+  --k-text:      #181613;
+  --k-text-2:    #4a463e;
+  --k-text-3:    #8a8478;
+  --k-line:      rgba(0, 0, 0, 0.10);
+  --k-line-2:    rgba(0, 0, 0, 0.18);
+  --k-accent:     #2f7d32;
+  --k-accent-ink: #ffffff;
+  --k-shadow-1: 0 4px 14px -6px rgba(0, 0, 0, 0.18);
+  --k-shadow-2: 0 18px 50px -12px rgba(0, 0, 0, 0.22);
+  --k-shadow-3: 0 40px 120px -20px rgba(0, 0, 0, 0.28);
+  color-scheme: light;
+}

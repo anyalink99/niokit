@@ -1,0 +1,142 @@
+/* =========================================================================
+   KIT — components
+   All driven by tokens.css. Class prefix `k-`. Overlay open/close is animated
+   purely in CSS (JS only toggles .is-open / .is-closing and waits for
+   animationend), so durations live in one place.
+   ========================================================================= */
+
+/* ---- buttons ---------------------------------------------------------- */
+.k-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  min-height: var(--k-tap); padding: 0 18px;
+  border-radius: var(--k-r-md);
+  font-family: var(--k-font); font-size: 15px; font-weight: 600; line-height: 1;
+  color: var(--k-text); background: var(--k-surface);
+  border: 1px solid var(--k-line); cursor: pointer; user-select: none;
+  transition: transform var(--k-dur-1) var(--k-ease-spring), background var(--k-dur-1) var(--k-ease), opacity var(--k-dur-1);
+}
+.k-btn:hover { background: var(--k-surface-2); }
+.k-btn:active { transform: scale(0.96); }
+.k-btn:disabled { opacity: 0.5; pointer-events: none; }
+.k-btn svg { width: 20px; height: 20px; }
+.k-btn--primary { background: var(--k-accent); color: var(--k-accent-ink); border-color: transparent; }
+.k-btn--primary:hover { background: var(--k-accent); filter: brightness(1.05); }
+.k-btn--ghost { background: transparent; }
+.k-btn--ghost:hover { background: var(--k-surface); }
+.k-btn--danger { background: var(--k-danger); color: #2a0d0d; border-color: transparent; }
+.k-btn--block { width: 100%; }
+.k-btn--sm { min-height: 36px; padding: 0 12px; font-size: 13px; border-radius: var(--k-r-sm); }
+.k-btn--lg { min-height: 52px; padding: 0 24px; font-size: 16px; }
+.k-btn--icon { width: var(--k-tap); padding: 0; border-radius: var(--k-r-pill); }
+.k-btn--icon.k-btn--sm { width: 36px; }
+
+/* pushable "3D" button (signature idiom) */
+.k-btn--3d {
+  background: var(--k-accent); color: var(--k-accent-ink); border: 0;
+  box-shadow: 0 4px 0 color-mix(in srgb, var(--k-accent) 62%, #000);
+  transition: transform var(--k-dur-1) var(--k-ease), box-shadow var(--k-dur-1) var(--k-ease);
+}
+.k-btn--3d:active { transform: translateY(2px); box-shadow: 0 2px 0 color-mix(in srgb, var(--k-accent) 62%, #000); }
+
+/* ---- segmented control ------------------------------------------------ */
+.k-segment { display: inline-flex; gap: 2px; padding: 3px; background: var(--k-surface); border: 1px solid var(--k-line); border-radius: var(--k-r-md); }
+.k-segment__opt {
+  padding: 8px 14px; border-radius: calc(var(--k-r-md) - 4px);
+  font-size: 13px; color: var(--k-text-3); cursor: pointer; white-space: nowrap;
+  transition: color var(--k-dur-1), background var(--k-dur-1);
+}
+.k-segment__opt:active { transform: scale(0.96); }
+.k-segment__opt.is-on { background: var(--k-text); color: var(--k-bg); }
+
+/* ---- toggle switch ---------------------------------------------------- */
+.k-switch { position: relative; display: inline-block; width: 46px; height: 28px; flex: none; }
+.k-switch input { position: absolute; inset: 0; margin: 0; opacity: 0; cursor: pointer; }
+.k-switch__track { display: block; width: 100%; height: 100%; border-radius: var(--k-r-pill); background: var(--k-surface-2); border: 1px solid var(--k-line); transition: background var(--k-dur-1) var(--k-ease), border-color var(--k-dur-1); }
+.k-switch__track::after { content: ""; position: absolute; top: 3px; left: 3px; width: 22px; height: 22px; border-radius: var(--k-r-pill); background: var(--k-text-2); transition: transform var(--k-dur-2) var(--k-ease-spring), background var(--k-dur-1); }
+.k-switch input:checked + .k-switch__track { background: var(--k-accent); border-color: transparent; }
+.k-switch input:checked + .k-switch__track::after { transform: translateX(18px); background: var(--k-accent-ink); }
+.k-switch input:disabled + .k-switch__track { opacity: 0.5; }
+
+/* ---- settings row ----------------------------------------------------- */
+.k-row { display: flex; align-items: center; justify-content: space-between; gap: 14px; width: 100%; padding: 13px 14px; background: var(--k-surface); border: 1px solid var(--k-line); border-radius: var(--k-r-md); text-align: left; }
+.k-row + .k-row { margin-top: 8px; }
+.k-row__label { color: var(--k-text); font-size: 14.5px; }
+.k-row__hint { color: var(--k-text-3); font-size: 12px; margin-top: 2px; }
+
+/* ---- selectable card -------------------------------------------------- */
+.k-card { display: block; width: 100%; text-align: left; padding: 16px; background: var(--k-surface); border: 1px solid var(--k-line); border-radius: var(--k-r-lg); cursor: pointer; transition: border-color var(--k-dur-1), background var(--k-dur-1), transform var(--k-dur-1) var(--k-ease-spring); }
+.k-card:active { transform: scale(0.985); }
+.k-card.is-on { border-color: var(--k-accent); background: var(--k-surface-2); }
+.k-card.is-disabled { opacity: 0.5; pointer-events: none; }
+
+/* ---- chip ------------------------------------------------------------- */
+.k-chip { display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: var(--k-r-md); border: 1px solid var(--k-line); background: transparent; color: var(--k-text-2); font-size: 13px; cursor: pointer; transition: all var(--k-dur-1) var(--k-ease); }
+.k-chip:active { transform: scale(0.94); }
+.k-chip.is-on { background: var(--k-text); color: var(--k-bg); border-color: var(--k-text); }
+
+/* ---- text field ------------------------------------------------------- */
+.k-field { width: 100%; min-height: var(--k-tap); padding: 0 14px; background: var(--k-surface); border: 1px solid var(--k-line); border-radius: var(--k-r-md); color: var(--k-text); transition: border-color var(--k-dur-1); }
+.k-field:focus { outline: none; border-color: var(--k-line-2); }
+.k-field::placeholder { color: var(--k-text-3); }
+textarea.k-field { padding: 12px 14px; resize: vertical; line-height: 1.4; }
+
+/* ---- range slider ----------------------------------------------------- */
+.k-range { -webkit-appearance: none; appearance: none; width: 100%; height: 4px; border-radius: var(--k-r-pill); background: var(--k-surface-2); outline: none; }
+.k-range::-webkit-slider-thumb { -webkit-appearance: none; width: 20px; height: 20px; border-radius: 50%; background: var(--k-accent); cursor: pointer; border: 3px solid var(--k-bg); box-shadow: 0 0 0 1px var(--k-line); }
+.k-range::-moz-range-thumb { width: 20px; height: 20px; border-radius: 50%; background: var(--k-accent); border: 3px solid var(--k-bg); cursor: pointer; }
+
+/* ---- spinner ---------------------------------------------------------- */
+.k-spinner { width: 22px; height: 22px; border-radius: 50%; border: 2.5px solid var(--k-line); border-top-color: var(--k-accent); animation: k-spin 0.8s linear infinite; }
+
+/* ---- screen stack ----------------------------------------------------- */
+.k-stage { position: relative; flex: 1 1 auto; overflow: hidden; }
+.k-screen { position: absolute; inset: 0; display: flex; flex-direction: column; overflow-y: auto; overflow-x: hidden; background: var(--k-bg); will-change: transform, opacity; -webkit-overflow-scrolling: touch; }
+.k-screen::-webkit-scrollbar { width: 0; height: 0; }
+.k-screen { scrollbar-width: none; }
+/* flat fade (tab-style) */
+.k-screen--fade { opacity: 0; pointer-events: none; transition: opacity var(--k-dur-2) var(--k-ease); }
+.k-screen--fade.is-active { opacity: 1; pointer-events: auto; }
+/* slide stack (push/pop) — classes toggled by screens.js */
+.k-screen--enter-fwd { animation: k-enter-right var(--k-dur-3) var(--k-ease) both; box-shadow: -24px 0 60px -10px rgba(0,0,0,0.55); }
+.k-screen--exit-fwd  { animation: k-exit-left  var(--k-dur-3) var(--k-ease) both; }
+.k-screen--enter-back { animation: k-enter-left var(--k-dur-3) var(--k-ease) both; }
+.k-screen--exit-back  { animation: k-exit-right var(--k-dur-3) var(--k-ease) both; box-shadow: -24px 0 60px -10px rgba(0,0,0,0.55); }
+
+/* ---- scroll lock (set on <html> by overlays) -------------------------- */
+.k-scroll-locked { overflow: hidden !important; }
+
+/* ---- modal ------------------------------------------------------------ */
+.k-modal { position: fixed; inset: 0; z-index: var(--k-z-modal); display: none; align-items: center; justify-content: center; padding: var(--k-space-4); }
+.k-modal.is-open { display: flex; }
+.k-modal__backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0.55); backdrop-filter: blur(3px); }
+.k-modal__panel { position: relative; z-index: 1; width: min(440px, 100%); max-height: 88vh; overflow-y: auto; background: var(--k-surface); border: 1px solid var(--k-line-2); border-radius: var(--k-r-xl); box-shadow: var(--k-shadow-3); padding: var(--k-space-5); scrollbar-width: thin; }
+.k-modal.is-open .k-modal__backdrop { animation: k-fade-in var(--k-dur-2) var(--k-ease) both; }
+.k-modal.is-open .k-modal__panel  { animation: k-pop-in var(--k-dur-2) var(--k-ease) both; }
+.k-modal.is-closing .k-modal__backdrop { animation: k-fade-out var(--k-dur-2) var(--k-ease) both; }
+.k-modal.is-closing .k-modal__panel  { animation: k-pop-out var(--k-dur-2) var(--k-ease) both; }
+
+/* ---- bottom sheet ----------------------------------------------------- */
+.k-sheet { position: fixed; inset: 0; z-index: var(--k-z-sheet); display: none; align-items: flex-end; }
+.k-sheet.is-open { display: flex; }
+/* sheet is driven by inline transitions in sheet.js (so swipe-drag works),
+   so the panel/backdrop carry their own transition + closed resting state. */
+.k-sheet__backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0.55); backdrop-filter: blur(2px); opacity: 0; transition: opacity var(--k-dur-2) var(--k-ease); }
+.k-sheet__panel { position: relative; z-index: 1; width: 100%; max-height: 90%; overflow-y: auto; background: var(--k-surface); border-top: 1px solid var(--k-line-2); border-radius: var(--k-r-xl) var(--k-r-xl) 0 0; box-shadow: var(--k-shadow-3); padding: var(--k-space-2) var(--k-space-5) calc(var(--k-space-6) + env(safe-area-inset-bottom)); transform: translateY(100%); transition: transform var(--k-dur-3) var(--k-ease); }
+.k-sheet__grip { width: 40px; height: 4px; border-radius: var(--k-r-pill); background: var(--k-line-2); margin: 6px auto 16px; cursor: grab; touch-action: none; }
+
+/* ---- toasts ----------------------------------------------------------- */
+.k-toasts { position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom)); transform: translateX(-50%); z-index: var(--k-z-toast); display: flex; flex-direction: column; gap: 8px; align-items: center; width: max-content; max-width: 90vw; pointer-events: none; }
+.k-toast { pointer-events: auto; background: var(--k-text); color: var(--k-bg); font-size: 14px; font-weight: 500; padding: 12px 18px; border-radius: var(--k-r-md); box-shadow: var(--k-shadow-2); max-width: 100%; animation: k-rise var(--k-dur-2) var(--k-ease) both; }
+.k-toast.is-out { animation: k-fade-out var(--k-dur-2) var(--k-ease) both; }
+.k-toast--good { background: var(--k-good); color: #06210f; }
+.k-toast--warn { background: var(--k-warn); color: #241a00; }
+.k-toast--danger { background: var(--k-danger); color: #2a0d0d; }
+
+/* ---- color picker (Kit.ColorPicker) ----------------------------------- */
+.k-cp { width: 232px; background: var(--k-surface); border: 1px solid var(--k-line-2); border-radius: var(--k-r-lg); padding: 12px; box-shadow: var(--k-shadow-2); }
+.k-cp__sv { position: relative; width: 100%; height: 148px; border-radius: var(--k-r-sm); cursor: crosshair; touch-action: none; }
+.k-cp__hue { position: relative; height: 14px; border-radius: var(--k-r-pill); margin-top: 12px; cursor: pointer; touch-action: none; background: linear-gradient(to right, #f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00); }
+.k-cp__thumb { position: absolute; width: 14px; height: 14px; border-radius: 50%; border: 2px solid #fff; box-shadow: 0 0 0 1px rgba(0,0,0,0.45); transform: translate(-50%, -50%); pointer-events: none; }
+.k-cp__row { display: flex; gap: 8px; align-items: center; margin-top: 12px; }
+.k-cp__hex { flex: 1; min-height: 38px; text-transform: uppercase; font-family: var(--k-font-mono); font-size: 13px; }
+.k-cp__swatch { width: 38px; height: 38px; border-radius: var(--k-r-sm); border: 1px solid var(--k-line); flex: none; }

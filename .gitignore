@@ -1,0 +1,15 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+*.swp
+.vscode/
+.idea/
+
+# archives & deps
+*.7z
+*.zip
+node_modules/
+
+# scratch / verification artifacts
+_*
+*.log
