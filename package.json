@@ -11,9 +11,12 @@
     "ui", "vanilla", "no-build", "design-tokens", "theming", "components",
     "modal", "sheet", "toast", "store", "router", "spa", "css", "front-end"
   ],
-  "files": ["css", "js", "README.md", "LICENSE", "CHANGELOG.md"],
-  "sideEffects": ["css/*.css"],
+  "main": "dist/niokit.js",
+  "style": "dist/niokit.css",
+  "files": ["css", "js", "dist", "README.md", "LICENSE", "CHANGELOG.md"],
+  "sideEffects": ["css/*.css", "dist/*.css"],
   "scripts": {
+    "build": "node build.mjs",
     "start": "npx --yes serve ."
   }
 }

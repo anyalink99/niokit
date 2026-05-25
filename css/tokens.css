@@ -94,7 +94,7 @@
 
 /* geometric.games — violet on plum (system sans, like the project) */
 :root[data-theme="geometric"] {
-  --k-bg: #1a161d; --k-surface: #2a2430; --k-surface-2: #382f42;
+  --k-bg: #1a161d; --k-surface: #2d2631; --k-surface-2: #39313f;
   --k-text: #f3eff7; --k-text-2: #b7adc5; --k-text-3: #847a93;
   --k-line: rgba(192,132,252,0.13); --k-line-2: rgba(192,132,252,0.30);
   --k-accent: #c084fc; --k-accent-ink: #1a131f;
