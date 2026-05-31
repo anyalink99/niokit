@@ -1,4 +1,4 @@
-/* Niokit v0.1.0 — bundled · https://github.com/anyalink99/niokit · MIT */
+/* Niokit v0.2.0 — bundled · https://github.com/anyalink99/niokit · MIT */
 /* =========================================================================
    KIT — design tokens
    The single source of truth. Override any --k-* var in your app to retheme;
@@ -359,6 +359,41 @@ textarea.k-field { padding: 12px 14px; resize: vertical; line-height: 1.4; }
 .k-sheet__backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0.55); backdrop-filter: blur(2px); opacity: 0; transition: opacity var(--k-dur-2) var(--k-ease); }
 .k-sheet__panel { position: relative; z-index: 1; width: 100%; max-height: 90%; overflow-y: auto; background: var(--k-surface); border-top: 1px solid var(--k-line-2); border-radius: var(--k-r-xl) var(--k-r-xl) 0 0; box-shadow: var(--k-shadow-3); padding: var(--k-space-2) var(--k-space-5) calc(var(--k-space-6) + env(safe-area-inset-bottom)); transform: translateY(100%); transition: transform var(--k-dur-3) var(--k-ease); }
 .k-sheet__grip { width: 40px; height: 4px; border-radius: var(--k-r-pill); background: var(--k-line-2); margin: 6px auto 16px; cursor: grab; touch-action: none; }
+
+/* ---- slot: inline collapsible panel for flex rows ---------------------
+   A side panel that lives inside a flex row and collapses to zero width
+   without leaving a phantom gap behind. Math: --k-slot-cancel is the
+   negative margin applied to both sides while closed; set it to HALF of
+   the parent row's `gap` (default `--k-space-2` = 8px, matches gap:16px).
+   That sum (-cancel × 2) eats exactly one gap, so neighbours sit at the
+   same position they would with `display:none`.
+
+   Markup (you control the parent flex/gap):
+     <div style="display:flex; gap:1rem;">
+       <main>…</main>
+       <aside class="k-slot" id="detail" style="--k-slot-w: 24rem">…</aside>
+     </div>
+     Kit.slot.open('detail');
+   ----------------------------------------------------------------------- */
+.k-slot {
+  --k-slot-w: 22rem;
+  --k-slot-cancel: var(--k-space-2);
+  width: 0;
+  opacity: 0;
+  overflow: hidden;
+  flex-shrink: 0;
+  min-width: 0;
+  margin-inline: calc(var(--k-slot-cancel) * -1);
+  transition:
+    width   var(--k-dur-3) var(--k-ease),
+    margin  var(--k-dur-3) var(--k-ease),
+    opacity var(--k-dur-2) var(--k-ease);
+}
+.k-slot.is-open {
+  width: var(--k-slot-w);
+  opacity: 1;
+  margin-inline: 0;
+}
 
 /* ---- toasts ----------------------------------------------------------- */
 .k-toasts { position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom)); transform: translateX(-50%); z-index: var(--k-z-toast); display: flex; flex-direction: column; gap: 8px; align-items: center; width: max-content; max-width: 90vw; pointer-events: none; }

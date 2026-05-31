@@ -5,7 +5,7 @@
 window.Kit = window.Kit || {};
 (function (K) {
   'use strict';
-  K.version = '0.1.0';
+  K.version = '0.2.0';
 
   K.$  = (sel, root) => (root || document).querySelector(sel);
   K.$$ = (sel, root) => Array.prototype.slice.call((root || document).querySelectorAll(sel));

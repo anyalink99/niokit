@@ -69,6 +69,23 @@
     )
   );
 
+  /* ---------- slot: inline flex-collapsible panel ---------- */
+  frame({ name: 'slot · inline panel', x: 1572, y: 84, rot: 2, w: 366 },
+    K.el('p.muted', { style: { marginBottom: '10px', fontSize: '12px' },
+      html: 'Боковая панель внутри flex-row. Соседи сжимаются плавно, без phantom-gap, layout не дёргается.' }),
+    K.el('div', { style: { display: 'flex', gap: '16px', alignItems: 'stretch', padding: '12px', background: 'var(--k-surface-2)', borderRadius: '10px', minHeight: '120px' } },
+      K.el('div', { style: { flex: '1', minWidth: '0', background: 'var(--k-surface)', border: '1px solid var(--k-line)', borderRadius: '8px', padding: '12px', fontSize: '13px', color: 'var(--k-text-2)' },
+        text: 'Главное' }),
+      K.el('aside.k-slot#demo-slot', { style: { '--k-slot-w': '128px', '--k-slot-cancel': '8px', background: 'var(--k-accent)', color: 'var(--k-accent-ink)', borderRadius: '8px', padding: '12px', fontSize: '13px', fontWeight: '600', display: 'flex', alignItems: 'center', justifyContent: 'center' },
+        text: 'Slot' })
+    ),
+    K.el('div.row-flex', { style: { marginTop: '10px' } },
+      btn('Toggle', '.k-btn--primary', { action: 'slot-toggle' }),
+      btn('Open', '', { action: 'slot-open' }),
+      btn('Close', '', { action: 'slot-close' })
+    )
+  );
+
   /* ---------- screens: flat tabs ---------- */
   const tScreen = (id, title, note) => K.el('section.k-screen', { dataset: { screen: id } }, K.el('div.pad', {}, K.el('h3', { text: title }), K.el('p.muted', { text: note })));
   frame({ name: 'screens · tabs', x: 884, y: 424, rot: 1.5, w: 300 },
@@ -117,6 +134,9 @@
       K.sheet.open('<div style="font-family:var(--k-font-display);font-size:22px;font-weight:700;margin-bottom:4px">Шит со списком</div><p style="color:var(--k-text-3);font-size:13px">Свайп вниз за ручку — закрыть.</p>' + list);
     },
     toast: (el) => K.toast.show('Тост: ' + el.dataset.type, { type: el.dataset.type }),
+    'slot-toggle': () => K.slot.toggle('demo-slot'),
+    'slot-open': () => K.slot.open('demo-slot'),
+    'slot-close': () => K.slot.close('demo-slot'),
     inc: () => store.set('n', store.get('n') + 1),
     dec: () => store.set('n', store.get('n') - 1),
     morph: () => {

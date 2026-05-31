@@ -3,6 +3,20 @@
 All notable changes to Niokit are documented here. Format loosely follows
 [Keep a Changelog](https://keepachangelog.com/); versions use [SemVer](https://semver.org/).
 
+## [0.2.0] — 2026-05-31
+
+### Added
+- **Slot** (`css/components.css` + `js/slot.js`) — inline side panel for flex
+  rows that collapses to zero width and back without leaving a phantom gap.
+  CSS does the math: `--k-slot-cancel` (negative `margin-inline`, default
+  `--k-space-2` = 8px) eats one parent `gap`, so neighbours sit exactly
+  where they would with `display:none`. JS is a thin class-toggle wrapper
+  (`Kit.slot.open / .close / .toggle / .isOpen`) with a `raf2` so a
+  freshly-mounted slot transitions from 0 instead of jumping. Use
+  `--k-slot-w` to set open width (default `22rem`); easing/duration come
+  from `--k-ease` and `--k-dur-3` (slide) + `--k-dur-2` (opacity).
+- Demo card showing toggle/open/close in a 3-column flex row (`demo/`).
+
 ## [0.1.0] — 2026-05-24
 
 Initial release. A framework-free vanilla front-end stack, no build step.
