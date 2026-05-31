@@ -3,6 +3,18 @@
 All notable changes to Niokit are documented here. Format loosely follows
 [Keep a Changelog](https://keepachangelog.com/); versions use [SemVer](https://semver.org/).
 
+## [0.2.2] — 2026-05-31
+
+### Fixed
+- **`Kit.el` — CSS custom properties** in `style: {...}` were silently
+  ignored. `Object.assign(node.style, { '--foo': 'bar' })` sets a regular
+  JS property on the style object but CSSOM doesn't pick it up — needs
+  `node.style.setProperty('--foo', 'bar')`. Symptom: in the slot demo
+  `--k-slot-w: '128px'` had no effect and the slot fell back to the
+  default `22rem` (352px), overflowing its parent and crushing the sibling.
+  Helper now detects `--`-prefixed keys and routes them through
+  `setProperty`; regular CSS properties stay on the fast path.
+
 ## [0.2.1] — 2026-05-31
 
 ### Fixed

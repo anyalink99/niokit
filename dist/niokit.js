@@ -1,4 +1,4 @@
-/* Niokit v0.2.1 — bundled · https://github.com/anyalink99/niokit · MIT */
+/* Niokit v0.2.2 — bundled · https://github.com/anyalink99/niokit · MIT */
 /* =========================================================================
    KIT — core helpers + namespace bootstrap (plain script, runs from file://)
    window.Kit is the single namespace every module attaches to.
@@ -6,7 +6,7 @@
 window.Kit = window.Kit || {};
 (function (K) {
   'use strict';
-  K.version = '0.2.1';
+  K.version = '0.2.2';
 
   K.$  = (sel, root) => (root || document).querySelector(sel);
   K.$$ = (sel, root) => Array.prototype.slice.call((root || document).querySelectorAll(sel));
@@ -29,7 +29,15 @@ window.Kit = window.Kit || {};
       if (key === 'class' || key === 'className') node.className = (node.className ? node.className + ' ' : '') + v;
       else if (key === 'html') node.innerHTML = v;
       else if (key === 'text') node.textContent = v;
-      else if (key === 'style' && typeof v === 'object') Object.assign(node.style, v);
+      else if (key === 'style' && typeof v === 'object') {
+        for (const sk in v) {
+          // CSS custom properties (--foo) НЕ выставляются через style[key]=value
+          // (CSSOM их игнорирует — остаются обычным JS-свойством на объекте,
+          // в computed style не попадают). Нужен setProperty.
+          if (sk.length > 1 && sk[0] === '-' && sk[1] === '-') node.style.setProperty(sk, v[sk]);
+          else node.style[sk] = v[sk];
+        }
+      }
       else if (key === 'dataset' && typeof v === 'object') Object.assign(node.dataset, v);
       else if (key === 'on' && typeof v === 'object') for (const ev in v) node.addEventListener(ev, v[ev]);
       else if (key in node) { try { node[key] = v; } catch (e) { node.setAttribute(key, v); } }
