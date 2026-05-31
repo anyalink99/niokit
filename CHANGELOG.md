@@ -3,6 +3,19 @@
 All notable changes to Niokit are documented here. Format loosely follows
 [Keep a Changelog](https://keepachangelog.com/); versions use [SemVer](https://semver.org/).
 
+## [0.2.1] — 2026-05-31
+
+### Fixed
+- **Slot demo**: visible "ghost" strip remained when collapsed, because the
+  demo had `padding`/`display:flex`/text directly on `.k-slot`. With
+  `box-sizing: border-box`, `width: 0` clamps the content area but the
+  padding still renders as a ~24px-wide background bar. Rewrote demo to
+  use the recommended pattern (all visual content in a child div; `.k-slot`
+  stays a bare geometry box). Added `box-sizing: border-box` to `.k-slot`
+  defensively. Expanded comments in components.css + slot.js to document
+  the three setup requirements (parent flex+gap, --k-slot-cancel = gap/2,
+  content in child).
+
 ## [0.2.0] — 2026-05-31
 
 ### Added

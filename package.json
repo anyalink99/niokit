@@ -1,6 +1,6 @@
 {
   "name": "niokit",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "A framework-free vanilla front-end stack: design tokens, motion, app skeletons, accessible overlays and components. No build step, runs from file://.",
   "license": "MIT",
   "author": "anyalink99",

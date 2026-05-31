@@ -136,22 +136,37 @@ textarea.k-field { padding: 12px 14px; resize: vertical; line-height: 1.4; }
 
 /* ---- slot: inline collapsible panel for flex rows ---------------------
    A side panel that lives inside a flex row and collapses to zero width
-   without leaving a phantom gap behind. Math: --k-slot-cancel is the
-   negative margin applied to both sides while closed; set it to HALF of
-   the parent row's `gap` (default `--k-space-2` = 8px, matches gap:16px).
-   That sum (-cancel × 2) eats exactly one gap, so neighbours sit at the
-   same position they would with `display:none`.
+   without leaving a phantom gap behind. Three things have to line up:
 
-   Markup (you control the parent flex/gap):
-     <div style="display:flex; gap:1rem;">
-       <main>…</main>
-       <aside class="k-slot" id="detail" style="--k-slot-w: 24rem">…</aside>
-     </div>
-     Kit.slot.open('detail');
+   (1) Parent must be `display:flex` with a defined `gap`. The panel sits
+       inline; the gap is reserved between siblings even when the panel
+       is width:0, so without intervention closing the panel would still
+       leave one gap of empty space next to the neighbour.
+   (2) `--k-slot-cancel` is the negative margin applied to BOTH sides
+       while closed. Set it to HALF of the parent's `gap` so the two
+       negative margins sum to one gap and eat it exactly. Default is
+       `--k-space-2` (8px), which matches a parent `gap: 16px`.
+   (3) Put your visible content (padding, background, border, the actual
+       UI) in a CHILD element of `.k-slot`. The `.k-slot` itself is a
+       pure geometry box; padding/border on it directly fights with
+       `width:0` (box-sizing tries to clamp but visuals leak) and the
+       open ↔ closed transition gets jumpy.
+
+       <div style="display: flex; gap: 16px;">
+         <main>…</main>
+         <aside class="k-slot" id="detail" style="--k-slot-w: 22rem">
+           <div class="slot-content">…padding/bg/your UI…</div>
+         </aside>
+       </div>
+       Kit.slot.open('detail');  // animates from width 0 → --k-slot-w
+
+   Width transitions over --k-dur-3 (slide); opacity over --k-dur-2 (so
+   contents fade slightly ahead of geometry settling).
    ----------------------------------------------------------------------- */
 .k-slot {
   --k-slot-w: 22rem;
   --k-slot-cancel: var(--k-space-2);
+  box-sizing: border-box;
   width: 0;
   opacity: 0;
   overflow: hidden;

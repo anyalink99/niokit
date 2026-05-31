@@ -1,4 +1,4 @@
-/* Niokit v0.2.0 — bundled · https://github.com/anyalink99/niokit · MIT */
+/* Niokit v0.2.1 — bundled · https://github.com/anyalink99/niokit · MIT */
 /* =========================================================================
    KIT — core helpers + namespace bootstrap (plain script, runs from file://)
    window.Kit is the single namespace every module attaches to.
@@ -6,7 +6,7 @@
 window.Kit = window.Kit || {};
 (function (K) {
   'use strict';
-  K.version = '0.2.0';
+  K.version = '0.2.1';
 
   K.$  = (sel, root) => (root || document).querySelector(sel);
   K.$$ = (sel, root) => Array.prototype.slice.call((root || document).querySelectorAll(sel));
@@ -597,17 +597,23 @@ window.Kit = window.Kit || {};
 /* =========================================================================
    KIT — slot: inline collapsible side panel for flex rows.
 
-   The heavy lifting is in CSS (.k-slot in components.css) — negative-margin
-   gap-cancel math means the panel can sit in layout permanently and just
-   animate width:0 ⇄ width:N without leaving phantom gaps. This module is
-   just a thin class-toggle wrapper that uses raf2 so a freshly-mounted
-   slot transitions from 0 instead of jumping to its open width.
+   The heavy lifting is in CSS (.k-slot in components.css — see comment
+   there for the THREE setup requirements: parent flex+gap, --k-slot-cancel
+   = parent_gap / 2, and content in a CHILD div, not directly on .k-slot).
 
-     <aside class="k-slot" id="detail">…</aside>
+   This module is just a thin class-toggle wrapper. The only smart bit is
+   raf2 on open() — a slot that was JUST mounted with class added in the
+   same tick would skip the transition and snap straight to its open width.
+   Two requestAnimationFrame ticks ensure the browser has painted the
+   initial width:0 state before we add .is-open.
+
+     <aside class="k-slot" id="detail" style="--k-slot-w: 22rem">
+       <div>your content with padding/bg/etc</div>
+     </aside>
      Kit.slot.open('detail');
      Kit.slot.close('detail');
      Kit.slot.toggle('detail');           // flip current state
-     Kit.slot.toggle('detail', true);     // force open
+     Kit.slot.toggle('detail', true);     // force open (idempotent)
      Kit.slot.isOpen('detail') -> bool
    ========================================================================= */
 (function (K) {

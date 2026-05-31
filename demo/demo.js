@@ -69,15 +69,22 @@
     )
   );
 
-  /* ---------- slot: inline flex-collapsible panel ---------- */
+  /* ---------- slot: inline flex-collapsible panel ----------
+     Pattern: .k-slot — пустая обёртка, отвечающая ТОЛЬКО за геометрию
+     (width 0 ⇄ N, opacity, margin-cancel). Контент с padding/border/bg
+     живёт в child-div со 100%-шириной. Иначе padding на самом slot'е
+     не схлопывается до 0 (border-box clamps width=0, но визуально
+     остаётся ghost-полоса). --k-slot-cancel = gap_родителя / 2. */
   frame({ name: 'slot · inline panel', x: 1572, y: 84, rot: 2, w: 366 },
     K.el('p.muted', { style: { marginBottom: '10px', fontSize: '12px' },
       html: 'Боковая панель внутри flex-row. Соседи сжимаются плавно, без phantom-gap, layout не дёргается.' }),
     K.el('div', { style: { display: 'flex', gap: '16px', alignItems: 'stretch', padding: '12px', background: 'var(--k-surface-2)', borderRadius: '10px', minHeight: '120px' } },
       K.el('div', { style: { flex: '1', minWidth: '0', background: 'var(--k-surface)', border: '1px solid var(--k-line)', borderRadius: '8px', padding: '12px', fontSize: '13px', color: 'var(--k-text-2)' },
         text: 'Главное' }),
-      K.el('aside.k-slot#demo-slot', { style: { '--k-slot-w': '128px', '--k-slot-cancel': '8px', background: 'var(--k-accent)', color: 'var(--k-accent-ink)', borderRadius: '8px', padding: '12px', fontSize: '13px', fontWeight: '600', display: 'flex', alignItems: 'center', justifyContent: 'center' },
-        text: 'Slot' })
+      K.el('aside.k-slot#demo-slot', { style: { '--k-slot-w': '128px', '--k-slot-cancel': '8px' } },
+        K.el('div', { style: { width: '100%', height: '100%', background: 'var(--k-accent)', color: 'var(--k-accent-ink)', borderRadius: '8px', padding: '12px', fontSize: '13px', fontWeight: '600', display: 'flex', alignItems: 'center', justifyContent: 'center' },
+          text: 'Slot' })
+      )
     ),
     K.el('div.row-flex', { style: { marginTop: '10px' } },
       btn('Toggle', '.k-btn--primary', { action: 'slot-toggle' }),
