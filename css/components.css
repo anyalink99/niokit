@@ -184,6 +184,56 @@ textarea.k-field { padding: 12px 14px; resize: vertical; line-height: 1.4; }
   margin-inline: 0;
 }
 
+/* ---- accordion: vertically collapsible sections -----------------------
+   max-height animation driven by JS (accordion.js measures scrollHeight and
+   writes it inline, then switches to `none` after the transition). CSS sets
+   the closed state and the transition curve.
+
+   Markup:
+     <div class="k-accordion" id="acc" data-single>
+       <section class="k-accordion__item is-expanded">
+         <button class="k-accordion__header" type="button">Title</button>
+         <div class="k-accordion__body">
+           <div class="k-accordion__inner">…</div>
+         </div>
+       </section>
+     </div>
+     Kit.accordion('#acc');                    // multi-open by default
+     Kit.accordion('#acc', { single: true });  // single (true accordion)
+   ----------------------------------------------------------------------- */
+.k-accordion__item { border-bottom: 1px solid var(--k-line); }
+.k-accordion__item:last-child { border-bottom: 0; }
+.k-accordion__header {
+  width: 100%;
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 18px;
+  background: transparent; border: 0;
+  text-align: left; font: inherit; color: var(--k-text-2);
+  font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color var(--k-dur-1) var(--k-ease), color var(--k-dur-1) var(--k-ease);
+}
+.k-accordion__header:hover { background: color-mix(in srgb, var(--k-accent) 6%, transparent); color: var(--k-text); }
+.k-accordion__header::before {
+  content: '';
+  display: inline-block;
+  width: 0; height: 0;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 6px solid currentColor;
+  opacity: 0.7;
+  transform: rotate(-90deg);
+  transition: transform var(--k-dur-2) var(--k-ease);
+  flex-shrink: 0;
+}
+.k-accordion__item.is-expanded > .k-accordion__header::before { transform: rotate(0deg); }
+.k-accordion__body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height var(--k-dur-3) var(--k-ease);
+}
+.k-accordion__inner { padding: 4px 18px 14px; }
+
 /* ---- toasts ----------------------------------------------------------- */
 .k-toasts { position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom)); transform: translateX(-50%); z-index: var(--k-z-toast); display: flex; flex-direction: column; gap: 8px; align-items: center; width: max-content; max-width: 90vw; pointer-events: none; }
 .k-toast { pointer-events: auto; background: var(--k-text); color: var(--k-bg); font-size: 14px; font-weight: 500; padding: 12px 18px; border-radius: var(--k-r-md); box-shadow: var(--k-shadow-2); max-width: 100%; animation: k-rise var(--k-dur-2) var(--k-ease) both; }

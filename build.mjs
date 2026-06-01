@@ -7,7 +7,7 @@ const banner = `/* Niokit v${pkg.version} — bundled · https://github.com/anya
 
 const CSS = ['tokens', 'reset', 'motion', 'components'];
 const JS = ['kit', 'storage', 'store', 'dispatch', 'router', 'screens',
-            'modal', 'sheet', 'slot', 'toast', 'fx', 'color-picker', 'keybinds'];
+            'modal', 'sheet', 'slot', 'accordion', 'toast', 'fx', 'color-picker', 'keybinds'];
 
 mkdirSync('dist', { recursive: true });
 writeFileSync('dist/niokit.css', banner + CSS.map(f => readFileSync(`css/${f}.css`, 'utf8')).join('\n'));

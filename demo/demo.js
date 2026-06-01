@@ -93,6 +93,23 @@
     )
   );
 
+  /* ---------- accordion ---------- */
+  function accItem(title, body, expanded) {
+    return K.el('section.k-accordion__item' + (expanded ? '.is-expanded' : ''), {},
+      K.el('button.k-accordion__header', { type: 'button' }, K.el('span', { text: title })),
+      K.el('div.k-accordion__body', {}, K.el('div.k-accordion__inner', { style: { fontSize: '13px', color: 'var(--k-text-2)' }, text: body }))
+    );
+  }
+  frame({ name: 'accordion', x: 1572, y: 396, rot: -1.5, w: 340 },
+    K.el('p.muted', { style: { marginBottom: '8px', fontSize: '12px' },
+      html: 'Высота анимируется по scrollHeight. После открытия — `max-height: none`, чтобы контент мог расти.' }),
+    K.el('div.k-accordion#demo-accordion', { dataset: { single: '' } },
+      accItem('Первая секция', 'Контент первой — открыта по умолчанию. Клик по другому заголовку закроет эту (single-режим).', true),
+      accItem('Вторая секция', 'Заметили: переход начинается от измеренной высоты и плавно идёт к 0 (или обратно). Никаких 9999px.'),
+      accItem('Третья', 'Если внутри открытой секции контент поменялся — Kit.accordion.recompute(item) перевычислит max-height.')
+    )
+  );
+
   /* ---------- screens: flat tabs ---------- */
   const tScreen = (id, title, note) => K.el('section.k-screen', { dataset: { screen: id } }, K.el('div.pad', {}, K.el('h3', { text: title }), K.el('p.muted', { text: note })));
   frame({ name: 'screens · tabs', x: 884, y: 424, rot: 1.5, w: 300 },
@@ -155,6 +172,9 @@
   }).init();
 
   K.$('#demo-modal-ok').addEventListener('click', () => K.modal.close('demo-modal'));
+
+  /* accordion (single-режим) */
+  K.accordion('#demo-accordion');
 
   /* screens */
   K.screens.init({ stage: '#tabs-stage', start: 't1' });

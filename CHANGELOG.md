@@ -3,6 +3,28 @@
 All notable changes to Niokit are documented here. Format loosely follows
 [Keep a Changelog](https://keepachangelog.com/); versions use [SemVer](https://semver.org/).
 
+## [0.3.0] — 2026-05-31
+
+### Added
+- **Accordion** (`css/components.css` + `js/accordion.js`) — vertical
+  collapsible sections with measured `max-height` animation. The trick is
+  animating to/from `height: auto`: CSS can't, so JS measures the inner
+  element's scrollHeight, writes it inline as max-height (which CAN
+  transition from 0), and switches back to `max-height: none` after the
+  transition ends so the section can grow when its contents change.
+  Close reverses: pin current height in px, force reflow, then set 0.
+  Headers get a chevron via `::before` that rotates -90deg ⇄ 0deg.
+
+  Init: `Kit.accordion('#acc')` (multi-open by default) or
+  `Kit.accordion('#acc', { single: true })` for true accordion. `data-single`
+  attribute on the root is the declarative equivalent. Imperative API:
+  `Kit.accordion.{expand,collapse,toggle,isExpanded,recompute}(item)`.
+  `.recompute(itemOrRoot)` is for when the contents of an open section
+  change and the pinned `none` is no longer accurate.
+
+  Lifted from mafia-host-app's `.unified-section` accordion. Demo card
+  added (3 sections, single-mode).
+
 ## [0.2.2] — 2026-05-31
 
 ### Fixed
